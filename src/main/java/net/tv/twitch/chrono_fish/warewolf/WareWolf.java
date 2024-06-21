@@ -10,6 +10,7 @@ public final class WareWolf extends JavaPlugin {
     @Override
     public void onEnable() {
         wareWolfGame = new WareWolfGame();
+        getCommand("ww").setExecutor(new Commands());
     }
 
     @Override
