@@ -1,8 +1,11 @@
 package net.tv.twitch.chrono_fish.warewolf.GamePack;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.PlayerScoreboard;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -51,5 +54,26 @@ public class WareWolfGame {
     }
     public ArrayList<WareWolfPlayer> getDeadPlayers() {
         return deadPlayers;
+    }
+
+    public void broadcast(String message){
+        Component tag = Component.text("[ww]").color(TextColor.color(0,255,0));
+        Bukkit.broadcast(tag.append(Component.text(message)));
+    }
+
+    public void changeTurn(){
+        switch (timeZone){
+            case DAY:
+                timeZone = TimeZone.VOTE;
+                break;
+
+            case VOTE:
+                timeZone = TimeZone.NIGHT;
+                break;
+
+            case NIGHT:
+                timeZone = TimeZone.DAY;
+                break;
+        }
     }
 }

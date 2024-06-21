@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class WareWolfPlayer {
 
     private final Player player;
-    private final Role role;
+    private Role role;
     private int votesCount;
     private boolean isAline;
     private boolean hasVote;
@@ -25,8 +25,12 @@ public class WareWolfPlayer {
     public Player getPlayer() {
         return player;
     }
+
     public Role getRole() {
         return role;
+    }
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public int getVotesCount() {
