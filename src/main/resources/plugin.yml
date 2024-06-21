@@ -1,0 +1,4 @@
+name: Warewolf
+version: '${project.version}'
+main: net.tv.twitch.chrono_fish.warewolf.Warewolf
+api-version: '1.20'
