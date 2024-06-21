@@ -1,4 +1,4 @@
-name: Warewolf
+name: WareWolf
 version: '${project.version}'
-main: net.tv.twitch.chrono_fish.warewolf.Warewolf
+main: net.tv.twitch.chrono_fish.warewolf.WareWolf
 api-version: '1.20'
