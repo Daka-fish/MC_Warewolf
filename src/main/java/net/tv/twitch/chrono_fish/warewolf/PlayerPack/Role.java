@@ -1,8 +1,8 @@
-package net.tv.twitch.chrono_fish.warewolf;
+package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 public enum Role {
-    VILLAGER("村人","white"),
-    WOLF("人狼","black");
+    VILLAGER("村人","WHITE"),
+    WOLF("人狼","BLACK");
 
     final String roleName;
     final String color;
