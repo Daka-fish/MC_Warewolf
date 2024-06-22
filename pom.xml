@@ -6,7 +6,7 @@
 
   <groupId>net.tv.twitch.chrono_fish</groupId>
   <artifactId>Warewolf</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>Warewolf</name>
