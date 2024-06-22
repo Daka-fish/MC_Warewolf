@@ -3,7 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 import org.bukkit.ChatColor;
 
 public enum Role {
-    VILLAGER(ChatColor.GREEN+"村人","WHITE"),
+    INNOCENT(ChatColor.GREEN+"村人","WHITE"),
     WOLF(ChatColor.RED+"人狼","BLACK");
 
     final String roleName;

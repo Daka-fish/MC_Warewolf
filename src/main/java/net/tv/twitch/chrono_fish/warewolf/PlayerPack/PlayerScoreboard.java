@@ -31,6 +31,10 @@ public class PlayerScoreboard {
 
     public void setScores(){
         obj.getScore("+ あなたの役職").setScore(-1);
-        obj.getScore("   └ "+ WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().getRoleName().toString()).setScore(-2);
+        obj.getScore("   └ "+ WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().getRoleName()).setScore(-2);
+    }
+    public void updateRole(Role newRole){
+        board.resetScores("   └ "+ WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().getRoleName());
+        obj.getScore("   └ "+ newRole.getRoleName()).setScore(-2);
     }
 }

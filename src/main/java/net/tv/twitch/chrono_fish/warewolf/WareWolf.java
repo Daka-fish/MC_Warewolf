@@ -5,13 +5,18 @@ import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public final class WareWolf extends JavaPlugin {
 
     private static WareWolfGame wareWolfGame;
 
+    private static Logger logger;
+
     @Override
     public void onEnable() {
         wareWolfGame = new WareWolfGame();
+        logger = getLogger();
         Bukkit.getPluginManager().registerEvents(new WareWolfEvent(), this);
         getCommand("ww").setExecutor(new Commands());
     }
@@ -21,7 +26,6 @@ public final class WareWolf extends JavaPlugin {
         //save game information to file;
     }
 
-    public static WareWolfGame getWareWolfgame(){
-        return wareWolfGame;
-    }
+    public static WareWolfGame getWareWolfgame(){ return wareWolfGame; }
+    public static void putLog(String message){ logger.info(message);}
 }

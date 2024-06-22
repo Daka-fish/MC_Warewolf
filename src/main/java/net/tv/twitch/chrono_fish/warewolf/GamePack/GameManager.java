@@ -2,27 +2,38 @@ package net.tv.twitch.chrono_fish.warewolf.GamePack;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.Map;
 
 public class GameManager {
 
-    public GameManager(Player sender, String[] args){
-        WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
-        switch (args[0]){
-            case "start":
-                wareWolfGame.setGameState(GameState.RUNNING);
-                break;
+    private final WareWolfGame wareWolfGame;
 
-            case "time":
-                sender.sendMessage("昼 : "+TimeZone.DAY.getTime()+"秒\n" +
-                                "夜 : "+TimeZone.NIGHT.getTime()+"秒\n"+
-                                "投票時間 : "+TimeZone.VOTE.getTime()+"秒");
-                break;
+    public GameManager(WareWolfGame wareWolfGame){
+        this.wareWolfGame = wareWolfGame;
+    }
 
-            default:
-                sender.sendMessage(Component.text("you send unknown command").color(TextColor.color(200,0,0)));
+    public void assignRole(){
+        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+            Player player = wp.getPlayer();
+            wareWolfGame.getScoreboardHashMap().get(player).updateRole(Role.WOLF);
+            wp.setRole(Role.WOLF);
+            WareWolf.putLog(player.getName()+" : "+ wp.getRole());
+        }
+    }
+
+    public void setAlivePlayers(){
+        for(Map.Entry<Player, WareWolfPlayer> entry: wareWolfGame.getWareWolfPlayers().entrySet()){
+            WareWolfPlayer wareWolfPlayer = entry.getValue();
+            if(wareWolfPlayer.isAline()){
+                wareWolfGame.getAlivePlayers().add(wareWolfPlayer);
+            }
         }
     }
 }
