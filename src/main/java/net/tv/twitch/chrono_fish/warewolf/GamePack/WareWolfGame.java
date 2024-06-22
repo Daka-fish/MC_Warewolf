@@ -3,6 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.GamePack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.PlayerScoreboard;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.BossBarManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
@@ -20,6 +21,7 @@ public class WareWolfGame {
     private final HashMap<Player, WareWolfPlayer> wareWolfPlayers;
     private final ArrayList<WareWolfPlayer> alivePlayers;
     private final ArrayList<WareWolfPlayer> deadPlayers;
+    private final ArrayList<Role> roles;
     private final GameManager gameManager;
     private final BossBarManager bossBarManager;
 
@@ -30,6 +32,7 @@ public class WareWolfGame {
         wareWolfPlayers = new HashMap<>();
         alivePlayers = new ArrayList<>();
         deadPlayers = new ArrayList<>();
+        roles = new ArrayList<>();
         gameManager = new GameManager(this);
         bossBarManager = new BossBarManager(this);
     }
@@ -44,26 +47,7 @@ public class WareWolfGame {
     public HashMap<Player, WareWolfPlayer> getWareWolfPlayers() { return wareWolfPlayers; }
     public ArrayList<WareWolfPlayer> getAlivePlayers() { return alivePlayers; }
     public ArrayList<WareWolfPlayer> getDeadPlayers() { return deadPlayers; }
+    public ArrayList<Role> getRoles() { return roles; }
     public GameManager getGameManager() { return gameManager;}
     public BossBarManager getBossBarManager() { return bossBarManager; }
-
-    public void broadcast(String message){
-        Component tag = Component.text("[ww]").color(TextColor.color(0,200,0));
-        Bukkit.broadcast(tag.append(Component.text(message)));
-    }
-    public void changeTurn(){
-        switch (timeZone){
-            case DAY:
-                timeZone = TimeZone.VOTE;
-                break;
-
-            case VOTE:
-                timeZone = TimeZone.NIGHT;
-                break;
-
-            case NIGHT:
-                timeZone = TimeZone.DAY;
-                break;
-        }
-    }
 }

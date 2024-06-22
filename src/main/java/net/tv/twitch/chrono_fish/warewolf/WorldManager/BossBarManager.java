@@ -13,7 +13,8 @@ public class BossBarManager {
 
     public BossBarManager(WareWolfGame wareWolfGame){
         this.wareWolfGame = wareWolfGame;
-        this.bossBar = Bukkit.createBossBar(wareWolfGame.getTimeZone().getTimeName(), BarColor.WHITE, BarStyle.SEGMENTED_20);
+        TimeZone timeZone = wareWolfGame.getTimeZone();
+        this.bossBar = Bukkit.createBossBar(timeZone.getTimeName(), BarColor.valueOf(timeZone.getColor()), BarStyle.SEGMENTED_20);
     }
 
     public BossBar getBossBar() { return bossBar; }

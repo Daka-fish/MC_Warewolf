@@ -22,50 +22,35 @@ public class WareWolfPlayer {
         isProtected = false;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
+    public Player getPlayer() { return player; }
 
-    public Role getRole() {
-        return role;
-    }
-    public void setRole(Role role) {
-        this.role = role;
-    }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 
-    public int getVotesCount() {
-        return votesCount;
-    }
-    public void setVotesCount(int votesCount){
-        this.votesCount = votesCount;
-    }
+    public int getVotesCount() { return votesCount; }
+    public void setVotesCount(int votesCount){ this.votesCount = votesCount; }
 
-    public boolean isAline() {
-        return isAline;
-    }
-    public void setAlive(boolean isAline){
-        this.isAline = isAline;
-    }
+    public boolean isAline() { return isAline; }
+    public void setAlive(boolean isAline){ this.isAline = isAline; }
 
-    public boolean isHasVote() {
-        return hasVote;
-    }
-    public void setHasVote(boolean hasVote) {
-        this.hasVote = hasVote;
-    }
+    public boolean isHasVote() { return hasVote; }
+    public void setHasVote(boolean hasVote) { this.hasVote = hasVote; }
 
-    public boolean isProtected() {
-        return isProtected;
-    }
-    public void setProtected(boolean isProtected) {
-        this.isProtected = isProtected;
-    }
+    public boolean isProtected() { return isProtected; }
+    public void setProtected(boolean isProtected) { this.isProtected = isProtected; }
 
     public void vote(WareWolfPlayer wp){
         if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.VOTE)){
-            if(!hasVote){
-                hasVote = true;
-                wp.setVotesCount(wp.getVotesCount()+1);
+            if(!player.equals(wp.getPlayer())){
+                if(!hasVote){
+                    hasVote = true;
+                    wp.setVotesCount(wp.getVotesCount()+1);
+                    player.sendMessage("you vote to "+wp.getPlayer().getName());
+                } else {
+                    player.sendMessage("you have already voted");
+                }
+            } else {
+                player.sendMessage("you can't vote to yourself");
             }
         }
     }

@@ -2,7 +2,9 @@ package net.tv.twitch.chrono_fish.warewolf;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfEvent;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.InvPack.InvEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -17,7 +19,9 @@ public final class WareWolf extends JavaPlugin {
     public void onEnable() {
         wareWolfGame = new WareWolfGame();
         logger = getLogger();
-        Bukkit.getPluginManager().registerEvents(new WareWolfEvent(), this);
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new WareWolfEvent(), this);
+        pluginManager.registerEvents(new InvEvent(), this);
         getCommand("ww").setExecutor(new Commands());
     }
 
