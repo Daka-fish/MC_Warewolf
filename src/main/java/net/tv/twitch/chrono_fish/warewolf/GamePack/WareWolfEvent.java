@@ -15,8 +15,9 @@ public class WareWolfEvent implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player joinedPlayer = e.getPlayer();
         WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
+        wareWolfGame.getWareWolfPlayers().put(joinedPlayer, new WareWolfPlayer(joinedPlayer,Role.VILLAGER));
+
         PlayerScoreboard playerScoreboard = new PlayerScoreboard(joinedPlayer);
-        wareWolfGame.getWareWolfPlayers().put(joinedPlayer.getName(), new WareWolfPlayer(joinedPlayer,Role.VILLAGER));
         wareWolfGame.getScoreboardHashMap().put(joinedPlayer, playerScoreboard);
         joinedPlayer.setScoreboard(playerScoreboard.getBoard());
     }

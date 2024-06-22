@@ -16,7 +16,7 @@ public class WareWolfGame {
     private GameState gameState;
     private TimeZone timeZone;
     private final HashMap<Player, PlayerScoreboard> scoreboardHashMap;
-    private final HashMap<String, WareWolfPlayer> wareWolfPlayers;
+    private final HashMap<Player, WareWolfPlayer> wareWolfPlayers;
     private final ArrayList<WareWolfPlayer> alivePlayers;
     private final ArrayList<WareWolfPlayer> deadPlayers;
 
@@ -43,21 +43,13 @@ public class WareWolfGame {
         this.timeZone = timeZone;
     }
 
-    public HashMap<Player, PlayerScoreboard> getScoreboardHashMap() {
-        return scoreboardHashMap;
-    }
-    public HashMap<String, WareWolfPlayer> getWareWolfPlayers() {
-        return wareWolfPlayers;
-    }
-    public ArrayList<WareWolfPlayer> getAlivePlayers() {
-        return alivePlayers;
-    }
-    public ArrayList<WareWolfPlayer> getDeadPlayers() {
-        return deadPlayers;
-    }
+    public HashMap<Player, PlayerScoreboard> getScoreboardHashMap() { return scoreboardHashMap; }
+    public HashMap<Player, WareWolfPlayer> getWareWolfPlayers() { return wareWolfPlayers; }
+    public ArrayList<WareWolfPlayer> getAlivePlayers() { return alivePlayers; }
+    public ArrayList<WareWolfPlayer> getDeadPlayers() { return deadPlayers; }
 
     public void broadcast(String message){
-        Component tag = Component.text("[ww]").color(TextColor.color(0,255,0));
+        Component tag = Component.text("[ww]").color(TextColor.color(0,200,0));
         Bukkit.broadcast(tag.append(Component.text(message)));
     }
 

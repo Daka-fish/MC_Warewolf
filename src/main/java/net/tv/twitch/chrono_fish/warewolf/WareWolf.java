@@ -1,6 +1,8 @@
 package net.tv.twitch.chrono_fish.warewolf;
 
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfEvent;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class WareWolf extends JavaPlugin {
@@ -10,6 +12,7 @@ public final class WareWolf extends JavaPlugin {
     @Override
     public void onEnable() {
         wareWolfGame = new WareWolfGame();
+        Bukkit.getPluginManager().registerEvents(new WareWolfEvent(), this);
         getCommand("ww").setExecutor(new Commands());
     }
 
