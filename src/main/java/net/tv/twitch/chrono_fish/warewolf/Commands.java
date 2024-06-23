@@ -49,11 +49,12 @@ public class Commands implements CommandExecutor {
 
                     case "vote":
                         wareWolfGame.setTimeZone(TimeZone.VOTE);
+                        wareWolfGame.getBossBarManager().reloadBar();
                         break;
 
                     case "action":
                         WareWolfInv wareWolfInv = new WareWolfInv();
-                        snd.openInventory(wareWolfInv.getActionInv(wareWolfInv.getInv()));
+                        snd.openInventory(wareWolfInv.actionInv());
                         break;
 
                     default:

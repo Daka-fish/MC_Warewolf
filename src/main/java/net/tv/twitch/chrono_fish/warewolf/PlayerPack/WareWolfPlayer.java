@@ -52,13 +52,23 @@ public class WareWolfPlayer {
             } else {
                 player.sendMessage("you can't vote to yourself");
             }
+        } else {
+            player.sendMessage("It's not time yet");
         }
     }
 
     public void kill(WareWolfPlayer wp){
         if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.NIGHT)){
-            if(role.equals(Role.WOLF) && !wp.getRole().equals(Role.WOLF)){
-                wp.setAlive(false);
+            if(role.equals(Role.WOLF)){
+                if(!player.equals(wp.getPlayer())){
+                    if(!wp.getRole().equals(Role.WOLF)){
+                        wp.setAlive(false);
+                    } else {
+                        player.sendMessage("you can't kill your buddy");
+                    }
+                } else {
+                    player.sendMessage("you can't kill yourself");
+                }
             }
         }
     }

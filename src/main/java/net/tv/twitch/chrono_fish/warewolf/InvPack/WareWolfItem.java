@@ -18,9 +18,6 @@ public class WareWolfItem {
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
         headMeta.setOwningPlayer(player);
         headMeta.displayName(Component.text(player.getName()));
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("vote to "+player.getName()).color(TextColor.color(140,140,140)));
-        headMeta.lore(lore);
         head.setItemMeta(headMeta);
         return head;
     }
@@ -29,10 +26,9 @@ public class WareWolfItem {
         ItemStack paper = new ItemStack(Material.PAPER);
         ItemMeta paperMeta = paper.getItemMeta();
         List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("click here to vote to someone!"));
-        lore.add(Component.text("(open vote menu)").color(TextColor.color(140,140,140)));
+        lore.add(Component.text("open vote menu").color(TextColor.color(140,140,140)));
         paperMeta.lore(lore);
-        paperMeta.displayName(Component.text("Vote"));
+        paperMeta.displayName(Component.text("投票"));
         paper.setItemMeta(paperMeta);
         return paper;
     }
@@ -40,7 +36,7 @@ public class WareWolfItem {
     public ItemStack getBackPowder(){
         ItemStack gunpowder = new ItemStack(Material.GUNPOWDER);
         ItemMeta powderMeta = gunpowder.getItemMeta();
-        powderMeta.displayName(Component.text("Back to action menu").color(TextColor.color(140,140,140)));
+        powderMeta.displayName(Component.text("戻る").color(TextColor.color(140,140,140)));
         gunpowder.setItemMeta(powderMeta);
         return gunpowder;
     }
@@ -51,5 +47,29 @@ public class WareWolfItem {
         voidMeta.displayName(Component.text("NONE").color(TextColor.color(140,140,140)));
         voidItem.setItemMeta(voidMeta);
         return voidItem;
+    }
+
+    public ItemStack getKillItem(){
+        ItemStack killItem = new ItemStack(Material.NETHERITE_AXE);
+        ItemMeta killMeta = killItem.getItemMeta();
+        killMeta.displayName(Component.text("殺害").color(TextColor.color(255,100,100)));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("open kill menu").color(TextColor.color(140,140,140)));
+        killMeta.lore(lore);
+        killItem.setItemMeta(killMeta);
+        return killItem;
+    }
+
+    public ItemStack getProtectItem(){
+        ItemStack protectItem = new ItemStack(Material.DIAMOND_SWORD);
+        return protectItem;
+    }
+
+    public ItemStack getFortuneTellerItem(){
+        return new ItemStack(Material.SPYGLASS);
+    }
+
+    public ItemStack getMediumItem(){
+        return new ItemStack(Material.WOODEN_SHOVEL);
     }
 }

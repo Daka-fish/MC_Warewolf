@@ -6,14 +6,14 @@ import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class WareWolfInv {
 
-    private final Component invName = Component.text("Action menu").decorate(TextDecoration.BOLD);
-    Inventory inv = Bukkit.createInventory(null, 54, invName);
+    private final Component acnName = Component.text("Action").decorate(TextDecoration.BOLD);
+    private final Component voteName = Component.text("Who do you vote to ?").decorate(TextDecoration.ITALIC);
+    private final Component killName = Component.text("Who do you kill ?").decorate(TextDecoration.ITALIC);
     private final WareWolfGame wareWolfGame;
     private final WareWolfItem wareWolfItem;
 
@@ -22,32 +22,59 @@ public class WareWolfInv {
         wareWolfItem = new WareWolfItem();
     }
 
-    public Inventory getInv() { return inv; }
-    public Component getInvName() { return invName; }
+    public Component getAcnName() { return acnName; }
+    public Component getVoteName() {return voteName; }
+    public Component getKillName() { return killName; }
 
-    public void voteInv(Inventory inv) {
-        inv.clear();
+    public Inventory voteInv() {
+        Inventory voteMenu = Bukkit.createInventory(null, 54, voteName);
         int colum = 9;
-        int size =inv.getSize();
+        int size =voteMenu.getSize();
         ItemStack voidItem = wareWolfItem.getVoidItem();
         ItemStack backItem = wareWolfItem.getBackPowder();
 
-        for(int i=0; i<colum; i++) inv.setItem(i,voidItem);
-        for(int i=size-colum; i<size; i++) inv.setItem(i,voidItem);
-        for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) inv.setItem(i, voidItem);
+        for(int i=0; i<colum; i++) voteMenu.setItem(i,voidItem);
+        for(int i=size-colum; i<size; i++) voteMenu.setItem(i,voidItem);
+        for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) voteMenu.setItem(i, voidItem);
 
         int index=10;
         for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
-            inv.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
+            voteMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
             index++;
         };
 
-        inv.setItem(43,backItem);
+        voteMenu.setItem(43,backItem);
+        return voteMenu;
     }
 
-    public Inventory getActionInv(Inventory inv) {
-        inv.clear();
-        inv.setItem(11, wareWolfItem.getVotePaper());
-        return inv;
+    public Inventory actionInv() {
+        Inventory acnInv = Bukkit.createInventory(null, 54, acnName);
+        acnInv.setItem(11, wareWolfItem.getVotePaper());
+        acnInv.setItem(13, wareWolfItem.getKillItem());
+        acnInv.setItem(15, wareWolfItem.getProtectItem());
+        acnInv.setItem(38, wareWolfItem.getFortuneTellerItem());
+        acnInv.setItem(40, wareWolfItem.getMediumItem());
+        return acnInv;
+    }
+
+    public Inventory killInv() {
+        Inventory killMenu = Bukkit.createInventory(null, 54, killName);
+        int colum = 9;
+        int size =killMenu.getSize();
+        ItemStack voidItem = wareWolfItem.getVoidItem();
+        ItemStack backItem = wareWolfItem.getBackPowder();
+
+        for(int i=0; i<colum; i++) killMenu.setItem(i,voidItem);
+        for(int i=size-colum; i<size; i++) killMenu.setItem(i,voidItem);
+        for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) killMenu.setItem(i, voidItem);
+
+        int index=10;
+        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+            killMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
+            index++;
+        };
+
+        killMenu.setItem(43,backItem);
+        return killMenu;
     }
 }
