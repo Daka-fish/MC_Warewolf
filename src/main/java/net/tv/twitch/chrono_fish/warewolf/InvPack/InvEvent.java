@@ -2,6 +2,7 @@ package net.tv.twitch.chrono_fish.warewolf.InvPack;
 
 import net.kyori.adventure.text.Component;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.entity.Player;
@@ -26,13 +27,23 @@ public class InvEvent implements Listener {
                 WareWolfInv wareWolfInv = new WareWolfInv();
                 WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
 
+                WareWolfPlayer wp = wareWolfGame.getWareWolfPlayers().get(player);
+
                 switch (clickedItem.getType()){
                     case PAPER:
                         player.openInventory(wareWolfInv.voteInv());
                         break;
 
                     case NETHERITE_AXE:
-                        player.openInventory(wareWolfInv.killInv());
+                        if(wp.getRole().equals(Role.WOLF)){
+                            player.openInventory(wareWolfInv.killInv());
+                        } else {
+                            player.sendMessage("you are not WOLF");
+                        }
+                        break;
+
+                    case DIAMOND_SWORD:
+                        player.openInventory(wareWolfInv.protectInv());
                         break;
 
                     case GUNPOWDER:
@@ -49,6 +60,8 @@ public class InvEvent implements Listener {
                             players.get(player).vote(players.get(target));
                         } else if (title.equals(wareWolfInv.getKillName())) {
                             players.get(player).kill(players.get(target));
+                        } else if (title.equals(wareWolfInv.getProtectName())) {
+                            players.get(player).protect(players.get(target));
                         }
                         break;
 

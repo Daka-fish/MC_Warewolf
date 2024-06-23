@@ -72,4 +72,9 @@ public class WareWolfPlayer {
             }
         }
     }
+
+    public void protect(WareWolfPlayer wp){
+        player.sendMessage("you protect "+wp.getPlayer().getName());
+        wp.setProtected(true);
+    }
 }

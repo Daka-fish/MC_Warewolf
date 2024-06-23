@@ -14,6 +14,7 @@ public class WareWolfInv {
     private final Component acnName = Component.text("Action").decorate(TextDecoration.BOLD);
     private final Component voteName = Component.text("Who do you vote to ?").decorate(TextDecoration.ITALIC);
     private final Component killName = Component.text("Who do you kill ?").decorate(TextDecoration.ITALIC);
+    private final Component protectName = Component.text("Who do you protect ?").decorate(TextDecoration.ITALIC);
     private final WareWolfGame wareWolfGame;
     private final WareWolfItem wareWolfItem;
 
@@ -25,6 +26,7 @@ public class WareWolfInv {
     public Component getAcnName() { return acnName; }
     public Component getVoteName() {return voteName; }
     public Component getKillName() { return killName; }
+    public Component getProtectName() {return protectName; }
 
     public Inventory voteInv() {
         Inventory voteMenu = Bukkit.createInventory(null, 54, voteName);
@@ -76,5 +78,26 @@ public class WareWolfInv {
 
         killMenu.setItem(43,backItem);
         return killMenu;
+    }
+
+    public Inventory protectInv() {
+        Inventory protectMenu = Bukkit.createInventory(null, 54, protectName);
+        int colum = 9;
+        int size =protectMenu.getSize();
+        ItemStack voidItem = wareWolfItem.getVoidItem();
+        ItemStack backItem = wareWolfItem.getBackPowder();
+
+        for(int i=0; i<colum; i++) protectMenu.setItem(i,voidItem);
+        for(int i=size-colum; i<size; i++) protectMenu.setItem(i,voidItem);
+        for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) protectMenu.setItem(i, voidItem);
+
+        int index=10;
+        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+            protectMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
+            index++;
+        };
+
+        protectMenu.setItem(43,backItem);
+        return protectMenu;
     }
 }

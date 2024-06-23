@@ -62,6 +62,12 @@ public class WareWolfItem {
 
     public ItemStack getProtectItem(){
         ItemStack protectItem = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta protectMeta = protectItem.getItemMeta();
+        protectMeta.displayName(Component.text("護衛").color(TextColor.color(100,100,255)));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("open protect menu").color(TextColor.color(140,140,140)));
+        protectMeta.lore(lore);
+        protectItem.setItemMeta(protectMeta);
         return protectItem;
     }
 
