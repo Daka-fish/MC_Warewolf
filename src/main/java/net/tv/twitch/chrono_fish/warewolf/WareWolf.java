@@ -23,6 +23,7 @@ public final class WareWolf extends JavaPlugin {
         pluginManager.registerEvents(new WareWolfEvent(), this);
         pluginManager.registerEvents(new InvEvent(), this);
         getCommand("ww").setExecutor(new Commands());
+        getCommand("wolf").setExecutor(new Commands());
     }
 
     @Override

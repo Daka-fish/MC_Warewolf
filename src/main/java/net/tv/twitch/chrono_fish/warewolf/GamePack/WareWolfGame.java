@@ -19,7 +19,6 @@ public class WareWolfGame {
     private final HashMap<Player, WareWolfPlayer> wareWolfPlayers;
     private final ArrayList<WareWolfPlayer> alivePlayers;
     private final ArrayList<WareWolfPlayer> deadPlayers;
-    private final ArrayList<WareWolfPlayer> wolfs;
     private final ArrayList<Role> roles;
     private final GameManager gameManager;
     private final BossBarManager bossBarManager;
@@ -32,11 +31,10 @@ public class WareWolfGame {
         wareWolfPlayers = new HashMap<>();
         alivePlayers = new ArrayList<>();
         deadPlayers = new ArrayList<>();
-        wolfs = new ArrayList<>();
         roles = new ArrayList<>();
         gameManager = new GameManager(this);
         bossBarManager = new BossBarManager(this);
-        wolfChat = new WolfChat(wolfs);
+        wolfChat = new WolfChat(alivePlayers);
     }
 
     public GameState getGameState() { return gameState; }
@@ -49,7 +47,6 @@ public class WareWolfGame {
     public HashMap<Player, WareWolfPlayer> getWareWolfPlayers() { return wareWolfPlayers; }
     public ArrayList<WareWolfPlayer> getAlivePlayers() { return alivePlayers; }
     public ArrayList<WareWolfPlayer> getDeadPlayers() { return deadPlayers; }
-    public ArrayList<WareWolfPlayer> getWolfs() { return wolfs; }
 
     public ArrayList<Role> getRoles() { return roles; }
     public GameManager getGameManager() { return gameManager;}

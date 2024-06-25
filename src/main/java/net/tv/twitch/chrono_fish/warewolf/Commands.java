@@ -12,23 +12,26 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class Commands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(sender instanceof Player){
             Player snd = (Player) sender;
+            WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
+            GameManager gameManager = wareWolfGame.getGameManager();
             if(command.getName().equalsIgnoreCase("ww")){
-                WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
-                GameManager gameManager = wareWolfGame.getGameManager();
                 switch (args[0]){
                     case "start":
                         if(wareWolfGame.getGameState().equals(GameState.FINISHED)){
-                            wareWolfGame.setGameState(GameState.RUNNING);
-                            wareWolfGame.setTimeZone(TimeZone.NIGHT);
-                            wareWolfGame.getBossBarManager().reloadBar();
                             gameManager.setAlivePlayers();
                             gameManager.setRoles();
                             gameManager.assignRole();
+                            wareWolfGame.setGameState(GameState.RUNNING);
+                            wareWolfGame.setTimeZone(TimeZone.NIGHT);
+                            wareWolfGame.getBossBarManager().reloadBar();
+                            wareWolfGame.getWolfChat().setAlivePlayer(wareWolfGame.getAlivePlayers());
                         } else {
                             snd.sendMessage("a game is running, you can't start another one");
                         }
@@ -61,6 +64,10 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(Component.text("you send an unknown command").color(TextColor.color(255,100,100)));
                 }
             }
+             if(command.getName().equalsIgnoreCase("wolf")){
+                 String message = String.join(" ",args);
+                 wareWolfGame.getWolfChat().sendMessageWolf(snd, message);
+             }
         }
         return false;
     }
