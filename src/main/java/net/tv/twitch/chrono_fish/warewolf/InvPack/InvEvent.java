@@ -43,7 +43,11 @@ public class InvEvent implements Listener {
                         break;
 
                     case DIAMOND_SWORD:
-                        player.openInventory(wareWolfInv.protectInv());
+                        if(wp.getRole().equals(Role.NIGHT)){
+                            player.openInventory(wareWolfInv.protectInv());
+                        } else {
+                            player.sendMessage("you are not NIGHT");
+                        }
                         break;
 
                     case GUNPOWDER:

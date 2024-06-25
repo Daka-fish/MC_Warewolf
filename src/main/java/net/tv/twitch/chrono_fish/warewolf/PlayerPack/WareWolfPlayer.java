@@ -62,7 +62,9 @@ public class WareWolfPlayer {
             if(role.equals(Role.WOLF)){
                 if(!player.equals(wp.getPlayer())){
                     if(!wp.getRole().equals(Role.WOLF)){
-                        wp.setAlive(false);
+                        if(!wp.isProtected){
+                            wp.setAlive(false);
+                        }
                     } else {
                         player.sendMessage("you can't kill your buddy");
                     }

@@ -4,7 +4,8 @@ import org.bukkit.ChatColor;
 
 public enum Role {
     INNOCENT(ChatColor.GREEN+"村人","WHITE"),
-    WOLF(ChatColor.RED+"人狼","BLACK");
+    WOLF(ChatColor.RED+"人狼","BLACK"),
+    NIGHT(ChatColor.BLUE+"騎士","WHITE");
 
     final String roleName;
     final String color;
