@@ -3,6 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.GamePack;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.PlayerScoreboard;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
+import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WolfPack.WolfChat;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.BossBarManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
@@ -21,6 +22,7 @@ public class WareWolfGame {
     private final ArrayList<WareWolfPlayer> deadPlayers;
     private final ArrayList<Role> roles;
     private final GameManager gameManager;
+    private final KillManager killManager;
     private final BossBarManager bossBarManager;
     private final WolfChat wolfChat;
 
@@ -33,6 +35,7 @@ public class WareWolfGame {
         deadPlayers = new ArrayList<>();
         roles = new ArrayList<>();
         gameManager = new GameManager(this);
+        killManager = new KillManager(this);
         bossBarManager = new BossBarManager(this);
         wolfChat = new WolfChat(alivePlayers);
     }
@@ -51,5 +54,6 @@ public class WareWolfGame {
     public ArrayList<Role> getRoles() { return roles; }
     public GameManager getGameManager() { return gameManager;}
     public BossBarManager getBossBarManager() { return bossBarManager; }
+    public KillManager getKillManager() { return killManager; }
     public WolfChat getWolfChat() { return wolfChat; }
 }

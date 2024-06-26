@@ -1,6 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
+import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import org.bukkit.entity.Player;
 
@@ -11,6 +12,7 @@ public class WareWolfPlayer {
     private int votesCount;
     private boolean isAline;
     private boolean hasVote;
+    private boolean hasActioned;
     private boolean isProtected;
 
     public WareWolfPlayer(Player player, Role role){
@@ -19,6 +21,7 @@ public class WareWolfPlayer {
         votesCount = 0;
         isAline = true;
         hasVote = false;
+        hasActioned = false;
         isProtected = false;
     }
 
@@ -35,6 +38,9 @@ public class WareWolfPlayer {
 
     public boolean isHasVote() { return hasVote; }
     public void setHasVote(boolean hasVote) { this.hasVote = hasVote; }
+
+    public boolean isHasActioned() { return hasActioned; }
+    public void setHasActioned(boolean hasActioned) { this.hasActioned = hasActioned; }
 
     public boolean isProtected() { return isProtected; }
     public void setProtected(boolean isProtected) { this.isProtected = isProtected; }
@@ -62,8 +68,8 @@ public class WareWolfPlayer {
             if(role.equals(Role.WOLF)){
                 if(!player.equals(wp.getPlayer())){
                     if(!wp.getRole().equals(Role.WOLF)){
-                        if(!wp.isProtected){
-                            wp.setAlive(false);
+                        if(WareWolf.getWareWolfgame().getKillManager().setTarget(this, wp)){
+                            hasActioned = true;
                         }
                     } else {
                         player.sendMessage("you can't kill your buddy");

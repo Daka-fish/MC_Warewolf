@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
+import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -21,10 +22,12 @@ public class WolfChat {
     }
 
     public void sendMessageWolf(Player player, String message){
-        Component component = Component.text("["+player.getName()+"] "+message).color(TextColor.color(255,120,120));
-        for(WareWolfPlayer wp : alivePlayer){
-            if(wp.getRole().equals(Role.WOLF)){
-                wp.getPlayer().sendMessage(component);
+        if(WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().equals(Role.WOLF)){
+            Component component = Component.text("["+player.getName()+"] "+message).color(TextColor.color(255,120,120));
+            for(WareWolfPlayer wp : alivePlayer){
+                if(wp.getRole().equals(Role.WOLF)){
+                    wp.getPlayer().sendMessage(component);
+                }
             }
         }
     }
