@@ -68,8 +68,12 @@ public class WareWolfPlayer {
             if(role.equals(Role.WOLF)){
                 if(!player.equals(wp.getPlayer())){
                     if(!wp.getRole().equals(Role.WOLF)){
-                        if(WareWolf.getWareWolfgame().getKillManager().setTarget(this, wp)){
+                        KillManager killManager = WareWolf.getWareWolfgame().getKillManager();
+                        killManager.getWolfSelections().put(this, wp);
+                        if(killManager.setTarget(this, wp)){
                             hasActioned = true;
+                        } else {
+                            killManager.reset();
                         }
                     } else {
                         player.sendMessage("you can't kill your buddy");

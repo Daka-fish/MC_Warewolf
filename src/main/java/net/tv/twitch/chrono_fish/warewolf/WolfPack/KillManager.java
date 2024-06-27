@@ -7,19 +7,19 @@ import java.util.HashMap;
 
 public class KillManager {
 
-    private final WareWolfGame wareWolfGame;
     private WareWolfPlayer target;
     private final HashMap<WareWolfPlayer, WareWolfPlayer> wolfSelections;
 
-    public KillManager(WareWolfGame wareWolfGame){
-        this.wareWolfGame = wareWolfGame;
+    public KillManager(){
         target = null;
         wolfSelections = new HashMap<>();
     }
 
+    public HashMap<WareWolfPlayer, WareWolfPlayer> getWolfSelections(){ return wolfSelections; }
+
     public boolean setTarget(WareWolfPlayer wolf, WareWolfPlayer wp){
-        wolfSelections.put(wolf, wp);
         WareWolfPlayer commonTarget = null;
+
         for(WareWolfPlayer selectedPayer : wolfSelections.values()){
             if(commonTarget == null){
                 commonTarget = selectedPayer;
@@ -31,6 +31,8 @@ public class KillManager {
         target = commonTarget;
         return true;
     }
+
+    public void reset(){}
 
     public void killPlayer(){
         if(target != null){

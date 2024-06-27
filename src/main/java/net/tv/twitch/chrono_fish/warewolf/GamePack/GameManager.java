@@ -61,6 +61,7 @@ public class GameManager {
 
             case NIGHT:
                 wareWolfGame.setTimeZone(TimeZone.DAY);
+                wareWolfGame.getKillManager().killPlayer();
                 break;
         }
     }
