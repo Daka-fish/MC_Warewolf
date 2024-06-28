@@ -35,7 +35,7 @@ public class WareWolfGame {
         deadPlayers = new ArrayList<>();
         roles = new ArrayList<>();
         gameManager = new GameManager(this);
-        killManager = new KillManager();
+        killManager = new KillManager(this);
         bossBarManager = new BossBarManager(this);
         wolfChat = new WolfChat(alivePlayers);
     }

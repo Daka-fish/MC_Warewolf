@@ -61,11 +61,23 @@ public class InvEvent implements Listener {
                         Component title = e.getView().title();
 
                         if(title.equals(wareWolfInv.getVoteName())){
-                            players.get(player).vote(players.get(target));
+                            if(!players.get(player).isHasActioned()){
+                                players.get(player).vote(players.get(target));
+                            } else {
+                                player.sendMessage("you have already voted");
+                            }
                         } else if (title.equals(wareWolfInv.getKillName())) {
-                            players.get(player).kill(players.get(target));
+                            if(!players.get(player).isHasActioned()){
+                                players.get(player).kill(players.get(target));
+                            } else {
+                                player.sendMessage("you have already killed");
+                            }
                         } else if (title.equals(wareWolfInv.getProtectName())) {
-                            players.get(player).protect(players.get(target));
+                            if(!players.get(player).isHasActioned()){
+                                players.get(player).protect(players.get(target));
+                            } else {
+                                player.sendMessage("you have already protected");
+                            }
                         }
                         break;
 

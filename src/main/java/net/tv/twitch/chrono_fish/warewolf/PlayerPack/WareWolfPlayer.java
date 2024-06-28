@@ -1,5 +1,6 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
@@ -65,15 +66,14 @@ public class WareWolfPlayer {
 
     public void kill(WareWolfPlayer wp){
         if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.NIGHT)){
+            WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
             if(role.equals(Role.WOLF)){
                 if(!player.equals(wp.getPlayer())){
                     if(!wp.getRole().equals(Role.WOLF)){
-                        KillManager killManager = WareWolf.getWareWolfgame().getKillManager();
-                        killManager.getWolfSelections().put(this, wp);
-                        if(killManager.setTarget(this, wp)){
-                            hasActioned = true;
-                        } else {
-                            killManager.reset();
+                        hasActioned = true;
+                        KillManager killManager = wareWolfGame.getKillManager();
+                        if(killManager.getWolfCount() == killManager.getWolfSelections().size()){
+                            killManager.setTarget();
                         }
                     } else {
                         player.sendMessage("you can't kill your buddy");
