@@ -16,10 +16,20 @@ import java.util.Map;
 public class GameManager {
 
     private final WareWolfGame wareWolfGame;
+    private WareWolfPlayer wolfTarget;
+    private WareWolfPlayer predictTarget;
+    private WareWolfPlayer mediumTarget;
 
     public GameManager(WareWolfGame wareWolfGame){
         this.wareWolfGame = wareWolfGame;
     }
+
+    public WareWolfPlayer getWolfTarget() { return wolfTarget; }
+    public void setWolfTarget(WareWolfPlayer wolfTarget) { this.wolfTarget = wolfTarget; }
+    public WareWolfPlayer getPredictTarget() { return predictTarget; }
+    public void setPredictTarget(WareWolfPlayer predictTarget) { this.predictTarget = predictTarget; }
+    public WareWolfPlayer getMediumTarget() { return mediumTarget; }
+    public void setMediumTarget(WareWolfPlayer mediumTarget) {this.mediumTarget = mediumTarget;}
 
     public void assignRole(){
         int index = 0;
@@ -60,8 +70,10 @@ public class GameManager {
                 break;
 
             case NIGHT:
-                wareWolfGame.setTimeZone(TimeZone.DAY);
                 wareWolfGame.getKillManager().killPlayer();
+                setAlivePlayers();
+                wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
+                wareWolfGame.setTimeZone(TimeZone.DAY);
                 break;
         }
     }

@@ -46,6 +46,13 @@ public class WareWolfPlayer {
     public boolean isProtected() { return isProtected; }
     public void setProtected(boolean isProtected) { this.isProtected = isProtected; }
 
+    public void reset(){
+        hasVote = false;
+        hasActioned = false;
+        votesCount = 0;
+        isProtected = false;
+    }
+
     public void vote(WareWolfPlayer wp){
         if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.VOTE)){
             if(!player.equals(wp.getPlayer())){
