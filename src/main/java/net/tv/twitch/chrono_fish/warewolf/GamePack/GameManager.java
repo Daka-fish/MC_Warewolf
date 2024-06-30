@@ -53,6 +53,17 @@ public class GameManager {
         Collections.shuffle(roles);
     }
 
+    public WareWolfPlayer getMostVoted(){
+        int maxVoted = 0;
+        WareWolfPlayer target = null;
+        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+            if(wp.getVotesCount() >= maxVoted){
+                target = wp;
+            }
+        }
+        return target;
+    }
+
     public void changeTurn(){
         switch (wareWolfGame.getTimeZone()){
             case DAY:
@@ -61,8 +72,7 @@ public class GameManager {
 
             case VOTE:
                 wareWolfGame.setTimeZone(TimeZone.NIGHT);
-                KillManager killManager = wareWolfGame.getKillManager();
-                killManager.setCurrentWolfs();
+                wareWolfGame.getKillManager().setCurrentWolfs();
                 break;
 
             case NIGHT:
