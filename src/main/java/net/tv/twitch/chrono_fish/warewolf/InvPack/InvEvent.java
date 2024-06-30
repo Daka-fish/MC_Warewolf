@@ -5,6 +5,7 @@ import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
+import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,17 +62,27 @@ public class InvEvent implements Listener {
                         Component title = e.getView().title();
 
                         if(title.equals(wareWolfInv.getVoteName())){
-                            if(!players.get(player).isHasActioned()){
-                                players.get(player).vote(players.get(target));
+                            if(wareWolfGame.getTimeZone().equals(TimeZone.VOTE)){
+                                if(!players.get(player).isHasVote()){
+                                    players.get(player).vote(players.get(target));
+                                } else {
+                                    player.sendMessage("you have already voted");
+                                }
                             } else {
-                                player.sendMessage("you have already voted");
+                                player.sendMessage("It's not time yet");
                             }
+
                         } else if (title.equals(wareWolfInv.getKillName())) {
-                            if(!players.get(player).isHasActioned()){
-                                players.get(player).kill(players.get(target));
+                            if(wareWolfGame.getTimeZone().equals(TimeZone.NIGHT)){
+                                if(!players.get(player).isHasActioned()){
+                                    players.get(player).kill(players.get(target));
+                                } else {
+                                    player.sendMessage("you have already killed");
+                                }
                             } else {
-                                player.sendMessage("you have already killed");
+                                player.sendMessage("It's not time yet");
                             }
+
                         } else if (title.equals(wareWolfInv.getProtectName())) {
                             if(!players.get(player).isHasActioned()){
                                 players.get(player).protect(players.get(target));
@@ -79,6 +90,7 @@ public class InvEvent implements Listener {
                                 player.sendMessage("you have already protected");
                             }
                         }
+
                         break;
 
                     case BLACK_STAINED_GLASS_PANE:

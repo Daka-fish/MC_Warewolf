@@ -54,40 +54,31 @@ public class WareWolfPlayer {
     }
 
     public void vote(WareWolfPlayer wp){
-        if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.VOTE)){
-            if(!player.equals(wp.getPlayer())){
-                if(!hasVote){
-                    hasVote = true;
-                    wp.setVotesCount(wp.getVotesCount()+1);
-                    player.sendMessage("you vote to "+wp.getPlayer().getName());
-                } else {
-                    player.sendMessage("you have already voted");
-                }
+        if(!player.equals(wp.getPlayer())){
+            if(!hasVote){
+                hasVote = true;
+                wp.setVotesCount(wp.getVotesCount()+1);
+                player.sendMessage("you vote to "+wp.getPlayer().getName());
             } else {
-                player.sendMessage("you can't vote to yourself");
+                player.sendMessage("you have already voted");
             }
         } else {
-            player.sendMessage("It's not time yet");
+            player.sendMessage("you can't vote to yourself");
         }
     }
 
     public void kill(WareWolfPlayer wp){
-        if(WareWolf.getWareWolfgame().getTimeZone().equals(TimeZone.NIGHT)){
-            WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
-            if(role.equals(Role.WOLF)){
-                if(!player.equals(wp.getPlayer())){
-                    if(!wp.getRole().equals(Role.WOLF)){
-                        hasActioned = true;
-                        KillManager killManager = wareWolfGame.getKillManager();
-                        if(killManager.getWolfCount() == killManager.getWolfSelections().size()){
-                            killManager.setTarget();
-                        }
-                    } else {
-                        player.sendMessage("you can't kill your buddy");
-                    }
+        WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
+        if(role.equals(Role.WOLF)){
+            if(!player.equals(wp.getPlayer())){
+                if(!wp.getRole().equals(Role.WOLF)){
+                    hasActioned = true;
+                    wareWolfGame.getKillManager().selectTarget(this, wp);
                 } else {
-                    player.sendMessage("you can't kill yourself");
+                    player.sendMessage("you can't kill your buddy");
                 }
+            } else {
+                player.sendMessage("you can't kill yourself");
             }
         }
     }
@@ -95,5 +86,9 @@ public class WareWolfPlayer {
     public void protect(WareWolfPlayer wp){
         player.sendMessage("you protect "+wp.getPlayer().getName());
         wp.setProtected(true);
+    }
+
+    public void predict(WareWolfPlayer wp){
+
     }
 }

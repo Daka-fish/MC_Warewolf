@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
+import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,13 +24,6 @@ public class GameManager {
     public GameManager(WareWolfGame wareWolfGame){
         this.wareWolfGame = wareWolfGame;
     }
-
-    public WareWolfPlayer getWolfTarget() { return wolfTarget; }
-    public void setWolfTarget(WareWolfPlayer wolfTarget) { this.wolfTarget = wolfTarget; }
-    public WareWolfPlayer getPredictTarget() { return predictTarget; }
-    public void setPredictTarget(WareWolfPlayer predictTarget) { this.predictTarget = predictTarget; }
-    public WareWolfPlayer getMediumTarget() { return mediumTarget; }
-    public void setMediumTarget(WareWolfPlayer mediumTarget) {this.mediumTarget = mediumTarget;}
 
     public void assignRole(){
         int index = 0;
@@ -67,12 +61,15 @@ public class GameManager {
 
             case VOTE:
                 wareWolfGame.setTimeZone(TimeZone.NIGHT);
+                KillManager killManager = wareWolfGame.getKillManager();
+                killManager.setCurrentWolfs();
                 break;
 
             case NIGHT:
                 wareWolfGame.getKillManager().killPlayer();
                 setAlivePlayers();
                 wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
+                wareWolfGame.getKillManager().reset();
                 wareWolfGame.setTimeZone(TimeZone.DAY);
                 break;
         }

@@ -12,24 +12,30 @@ public class KillManager {
     private final WareWolfGame wareWolfGame;
     private final HashMap<WareWolfPlayer, WareWolfPlayer> wolfSelections;
     private final ArrayList<WareWolfPlayer> currentWolfs;
-    private WareWolfPlayer target;
 
     public KillManager(WareWolfGame wareWolfGame){
         this.wareWolfGame = wareWolfGame;
         currentWolfs = new ArrayList<>();
-        target = null;
         wolfSelections = new HashMap<>();
+    }
+
+    public void setCurrentWolfs(){
         for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
             if(wp.getRole().equals(Role.WOLF)){
                 currentWolfs.add(wp);
             }
         }
     }
+    public void selectTarget(WareWolfPlayer wolfPlayer, WareWolfPlayer target){
+        wolfSelections.put(wolfPlayer, target);
+        if(wolfSelections.size() == currentWolfs.size()){
+            if(isCommonTarget()){
+                target.setAlive(false);
+            }
+        }
+    }
 
-    public int getWolfCount() { return currentWolfs.size(); }
-    public HashMap<WareWolfPlayer, WareWolfPlayer> getWolfSelections(){ return wolfSelections; }
-
-    public void setTarget(){
+    public boolean isCommonTarget(){
         WareWolfPlayer commonTarget = null;
         for(WareWolfPlayer selectedPayer : wolfSelections.values()){
             if(commonTarget == null){
@@ -39,18 +45,24 @@ public class KillManager {
                     if(wolfPlayer.getRole().equals(Role.WOLF)){
                         wolfPlayer.getPlayer().sendMessage("you have to chose same target as your buddy do");
                         wolfPlayer.setHasActioned(false);
+                        return false;
                     }
                 }
             }
         }
-        target = commonTarget;
+        return true;
     }
 
-    public void reset(){}
+    public void reset(){
+        currentWolfs.clear();
+        wolfSelections.clear();
+    }
 
     public void killPlayer(){
-        if(target != null){
-            target.setAlive(false);
+        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+            if(!wp.isAline()){
+                wp.getPlayer().setHealth(0);
+            }
         }
     }
 }
