@@ -17,9 +17,6 @@ import java.util.Map;
 public class GameManager {
 
     private final WareWolfGame wareWolfGame;
-    private WareWolfPlayer wolfTarget;
-    private WareWolfPlayer predictTarget;
-    private WareWolfPlayer mediumTarget;
 
     public GameManager(WareWolfGame wareWolfGame){
         this.wareWolfGame = wareWolfGame;
@@ -71,6 +68,7 @@ public class GameManager {
                 break;
 
             case VOTE:
+                getMostVoted().getPlayer().setHealth(0);
                 wareWolfGame.setTimeZone(TimeZone.NIGHT);
                 wareWolfGame.getKillManager().setCurrentWolfs();
                 break;

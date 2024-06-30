@@ -89,6 +89,6 @@ public class WareWolfPlayer {
     }
 
     public void predict(WareWolfPlayer wp){
-
+        player.sendMessage(wp.getRole().getColor());
     }
 }
