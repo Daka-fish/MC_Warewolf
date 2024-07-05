@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
-import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
