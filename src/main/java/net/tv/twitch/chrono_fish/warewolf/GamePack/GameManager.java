@@ -62,24 +62,20 @@ public class GameManager {
     }
 
     public void changeTurn(){
-        switch (wareWolfGame.getTimeZone()){
-            case DAY:
-                wareWolfGame.setTimeZone(TimeZone.VOTE);
-                break;
+        if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
+            switch (wareWolfGame.getTimeZone()){
+                case DAY:
+                    wareWolfGame.setTimeZone(TimeZone.VOTE);
+                    break;
 
-            case VOTE:
-                getMostVoted().getPlayer().setHealth(0);
-                wareWolfGame.setTimeZone(TimeZone.NIGHT);
-                wareWolfGame.getKillManager().setCurrentWolfs();
-                break;
+                case VOTE:
+                    wareWolfGame.setTimeZone(TimeZone.NIGHT);
+                    break;
 
-            case NIGHT:
-                wareWolfGame.getKillManager().killPlayer();
-                setAlivePlayers();
-                wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
-                wareWolfGame.getKillManager().reset();
-                wareWolfGame.setTimeZone(TimeZone.DAY);
-                break;
+                case NIGHT:
+                    wareWolfGame.setTimeZone(TimeZone.DAY);
+                    break;
+            }
         }
     }
 
@@ -96,6 +92,22 @@ public class GameManager {
         if(whitePlayer <= blackPlayer){
             wareWolfGame.setGameState(GameState.FINISHED);
         }
+    }
+
+    public void timeZoneEndTask(){
+        TimeZone timeZone = wareWolfGame.getTimeZone();
+        if(timeZone.equals(TimeZone.VOTE)){
+            getMostVoted().getPlayer().setHealth(0);
+            wareWolfGame.getKillManager().setCurrentWolfs();
+        }
+        else if(timeZone.equals(TimeZone.NIGHT)){
+            wareWolfGame.getKillManager().killPlayer();
+            setAlivePlayers();
+            wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
+            wareWolfGame.getKillManager().reset();
+        }
+        checkWinner();
+        changeTurn();
     }
 
     public int countHasVote(){

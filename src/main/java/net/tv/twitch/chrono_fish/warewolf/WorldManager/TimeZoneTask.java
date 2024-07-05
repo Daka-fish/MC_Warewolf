@@ -23,8 +23,7 @@ public class TimeZoneTask extends BukkitRunnable {
         time --;
         if(time <= 0){
             cancel();
-            wareWolfGame.getGameManager().changeTurn();
-            wareWolfGame.getGameManager().checkWinner();
+            wareWolfGame.getGameManager().timeZoneEndTask();
             if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
                 new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);
             }
