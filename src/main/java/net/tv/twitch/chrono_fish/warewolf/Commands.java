@@ -7,6 +7,7 @@ import net.tv.twitch.chrono_fish.warewolf.GamePack.GameState;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WareWolfInv;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZoneTask;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +20,7 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(sender instanceof Player){
             Player snd = (Player) sender;
+            WareWolf wareWolf = WareWolf.getMain();
             WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
             GameManager gameManager = wareWolfGame.getGameManager();
             if(command.getName().equalsIgnoreCase("ww")){
@@ -58,6 +60,10 @@ public class Commands implements CommandExecutor {
                     case "action":
                         WareWolfInv wareWolfInv = new WareWolfInv();
                         snd.openInventory(wareWolfInv.actionInv());
+                        break;
+
+                    case "tstart":
+                        new TimeZoneTask(wareWolf,wareWolfGame).runTaskTimer(wareWolf,0,20);
                         break;
 
                     default:

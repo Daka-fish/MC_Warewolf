@@ -3,6 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.WorldManager;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.GameState;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TimeZoneTask extends BukkitRunnable {
@@ -23,10 +24,13 @@ public class TimeZoneTask extends BukkitRunnable {
         time --;
         if(time <= 0){
             cancel();
-            wareWolfGame.getGameManager().timeZoneEndTask();
-            if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
-                new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);
-            }
+            Bukkit.broadcastMessage("syuyuras");
+            Bukkit.getOnlinePlayers().forEach(player -> wareWolfGame.getScoreboardHashMap().get(player).updateTime(wareWolfGame.getTimeZone().getTime()));
+            //wareWolfGame.getGameManager().timeZoneEndTask();
+            //if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
+                //new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);
+            //}
         }
+        Bukkit.getOnlinePlayers().forEach(player -> wareWolfGame.getScoreboardHashMap().get(player).updateTime(time));
     }
 }

@@ -14,9 +14,11 @@ public final class WareWolf extends JavaPlugin {
     private static WareWolfGame wareWolfGame;
 
     private static Logger logger;
+    private static WareWolf instance;
 
     @Override
     public void onEnable() {
+        instance = this;
         wareWolfGame = new WareWolfGame();
         logger = getLogger();
         PluginManager pluginManager = Bukkit.getPluginManager();
@@ -29,6 +31,10 @@ public final class WareWolf extends JavaPlugin {
     @Override
     public void onDisable() {
         //save game information to file;
+    }
+
+    public static WareWolf getMain(){
+        return instance;
     }
 
     public static WareWolfGame getWareWolfgame(){ return wareWolfGame; }

@@ -19,6 +19,9 @@ public class PlayerScoreboard {
     private final Player player;
     private final WareWolfGame wareWolfGame;
 
+    private String stateScore;
+    private String timeScore;
+
     public PlayerScoreboard(Player player){
         this.player = player;
         wareWolfGame = WareWolf.getWareWolfgame();
@@ -35,15 +38,26 @@ public class PlayerScoreboard {
     public Player getPlayer() { return player; }
 
     public void setScores(){
+        stateScore = "   └ "+ wareWolfGame.getWareWolfPlayers().get(player).getRole().getRoleName();
+        timeScore = "   └ "+ wareWolfGame.getTimeZone().getTime()+"秒";
+
         obj.getScore("+ あなたの役職").setScore(-1);
-        obj.getScore("   └ "+ wareWolfGame.getWareWolfPlayers().get(player).getRole().getRoleName()).setScore(-2);
+        obj.getScore(stateScore).setScore(-2);
         obj.getScore(ChatColor.GRAY+"+ 墓場 - "+wareWolfGame.getDeadPlayers().size()+"人").setScore(-99);
 
         obj.getScore("+ 残り時間").setScore(-4);
-        obj.getScore("   └ "+ wareWolfGame.getTimeZone().getTime()+"秒").setScore(-5);
+        obj.getScore(timeScore).setScore(-5);
     }
+
     public void updateRole(Role newRole){
-        board.resetScores("   └ "+ WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().getRoleName());
-        obj.getScore("   └ "+ newRole.getRoleName()).setScore(-2);
+        board.resetScores(stateScore);
+        stateScore = "   └ "+ newRole.getRoleName();
+        obj.getScore(stateScore).setScore(-2);
+    }
+
+    public void updateTime(int newTime){
+        board.resetScores(timeScore);
+        timeScore = "   └ "+ newTime+"秒";
+        obj.getScore(timeScore).setScore(-5);
     }
 }
