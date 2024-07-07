@@ -22,10 +22,10 @@ public class TimeZoneTask extends BukkitRunnable {
     @Override
     public void run() {
         time --;
-        if(time <= 0){
+        if(time < 0){
             cancel();
-            Bukkit.broadcastMessage("syuyuras");
             Bukkit.getOnlinePlayers().forEach(player -> wareWolfGame.getScoreboardHashMap().get(player).updateTime(wareWolfGame.getTimeZone().getTime()));
+            return;
             //wareWolfGame.getGameManager().timeZoneEndTask();
             //if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
                 //new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);

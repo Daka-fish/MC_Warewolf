@@ -56,6 +56,7 @@ public class PlayerScoreboard {
     }
 
     public void updateTime(int newTime){
+        board.resetScores("   └ "+0+"秒");
         board.resetScores(timeScore);
         timeScore = "   └ "+ newTime+"秒";
         obj.getScore(timeScore).setScore(-5);
