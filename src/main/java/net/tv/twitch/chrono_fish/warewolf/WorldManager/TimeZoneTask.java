@@ -15,6 +15,7 @@ public class TimeZoneTask extends BukkitRunnable {
     public TimeZoneTask(WareWolf wareWolf, WareWolfGame wareWolfGame){
         this.wareWolf = wareWolf;
         this.wareWolfGame = wareWolfGame;
+        //this.currentTimeZone = wareWolfGame.getTimeZone()
         TimeZone currentTime = wareWolfGame.getTimeZone();
         time = currentTime.getTime();
     }
@@ -24,12 +25,11 @@ public class TimeZoneTask extends BukkitRunnable {
         time --;
         if(time < 0){
             cancel();
-            Bukkit.getOnlinePlayers().forEach(player -> wareWolfGame.getScoreboardHashMap().get(player).updateTime(wareWolfGame.getTimeZone().getTime()));
+            wareWolfGame.getGameManager().timeZoneEndTask();
+            if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
+                new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);
+            }
             return;
-            //wareWolfGame.getGameManager().timeZoneEndTask();
-            //if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
-                //new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,0,20);
-            //}
         }
         Bukkit.getOnlinePlayers().forEach(player -> wareWolfGame.getScoreboardHashMap().get(player).updateTime(time));
     }
