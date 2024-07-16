@@ -3,7 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.WorldManager;
 import org.bukkit.ChatColor;
 
 public enum TimeZone {
-    DAY(ChatColor.BOLD+"昼", 10, "YELLOW"),
+    DAY(ChatColor.BOLD+"昼", 180, "YELLOW"),
     VOTE(ChatColor.BOLD+"投票", 60, "RED"),
     NIGHT(ChatColor.BOLD+"夜", 120, "PINK");
 

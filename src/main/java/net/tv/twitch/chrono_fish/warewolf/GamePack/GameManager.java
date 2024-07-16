@@ -6,6 +6,7 @@ import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZoneTask;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -15,9 +16,11 @@ import java.util.Map;
 
 public class GameManager {
 
+    private final WareWolf wareWolf;
     private final WareWolfGame wareWolfGame;
 
-    public GameManager(WareWolfGame wareWolfGame){
+    public GameManager(WareWolf wareWolf, WareWolfGame wareWolfGame){
+        this.wareWolf = wareWolf;
         this.wareWolfGame = wareWolfGame;
     }
 
@@ -106,7 +109,10 @@ public class GameManager {
             wareWolfGame.getKillManager().reset();
         }
         checkWinner();
-        changeTurn();
+        if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
+            changeTurn();
+            new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,10,20);
+        }
     }
 
     public int countHasVote(){

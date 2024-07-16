@@ -3,6 +3,7 @@ package net.tv.twitch.chrono_fish.warewolf.GamePack;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.PlayerScoreboard;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
+import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
 import net.tv.twitch.chrono_fish.warewolf.WolfPack.WolfChat;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.BossBarManager;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 
 public class WareWolfGame {
 
+    private WareWolf wareWolf;
     private GameState gameState;
     private TimeZone timeZone;
     private final HashMap<Player, PlayerScoreboard> scoreboardHashMap;
@@ -26,7 +28,8 @@ public class WareWolfGame {
     private final BossBarManager bossBarManager;
     private final WolfChat wolfChat;
 
-    public WareWolfGame(){
+    public WareWolfGame(WareWolf wareWolf){
+        this.wareWolf = wareWolf;
         gameState = GameState.FINISHED;
         timeZone = TimeZone.DAY;
         scoreboardHashMap = new HashMap<>();
@@ -34,7 +37,7 @@ public class WareWolfGame {
         alivePlayers = new ArrayList<>();
         deadPlayers = new ArrayList<>();
         roles = new ArrayList<>();
-        gameManager = new GameManager(this);
+        gameManager = new GameManager(wareWolf,this);
         killManager = new KillManager(this);
         bossBarManager = new BossBarManager(this);
         wolfChat = new WolfChat(alivePlayers);

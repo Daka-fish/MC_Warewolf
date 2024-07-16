@@ -34,6 +34,7 @@ public class Commands implements CommandExecutor {
                             wareWolfGame.setTimeZone(TimeZone.NIGHT);
                             wareWolfGame.getBossBarManager().reloadBar();
                             wareWolfGame.getWolfChat().setAlivePlayer(wareWolfGame.getAlivePlayers());
+                            new TimeZoneTask(wareWolf,wareWolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("a game is running, you can't start another one");
                         }

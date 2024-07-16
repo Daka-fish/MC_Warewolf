@@ -19,7 +19,7 @@ public final class WareWolf extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        wareWolfGame = new WareWolfGame();
+        wareWolfGame = new WareWolfGame(this);
         logger = getLogger();
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new WareWolfEvent(), this);
