@@ -1,32 +1,37 @@
 package net.tv.twitch.chrono_fish.warewolf.WolfPack;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
-import net.tv.twitch.chrono_fish.warewolf.WareWolf;
-import org.bukkit.entity.Player;
+import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 
-import java.util.ArrayList;
+public class WolfChat implements Listener {
 
-public class WolfChat {
+    WareWolfGame wareWolfGame;
 
-    private ArrayList<WareWolfPlayer> alivePlayer;
-
-    public WolfChat(ArrayList<WareWolfPlayer> alivePlayers){
-        this.alivePlayer = alivePlayers;
+    public WolfChat(WareWolfGame wareWolfGame){
+        this.wareWolfGame = wareWolfGame;
     }
 
-    public void setAlivePlayer(ArrayList<WareWolfPlayer> alivePlayer) {
-        this.alivePlayer = alivePlayer;
-    }
-
-    public void sendMessageWolf(Player player, String message){
-        if(WareWolf.getWareWolfgame().getWareWolfPlayers().get(player).getRole().equals(Role.WOLF)){
-            Component component = Component.text("["+player.getName()+"] "+message).color(TextColor.color(255,120,120));
-            for(WareWolfPlayer wp : alivePlayer){
-                if(wp.getRole().equals(Role.WOLF)){
-                    wp.getPlayer().sendMessage(component);
+    @EventHandler
+    public void onChat(AsyncChatEvent e){
+        if(wareWolfGame.getTimeZone().equals(TimeZone.NIGHT)){
+            e.setCancelled(true);
+            WareWolfPlayer sender = wareWolfGame.getWareWolfPlayers().get(e.getPlayer());
+            if(sender.getRole().equals(Role.WOLF) && sender.isAline()){
+                Component message = Component
+                        .text("["+e.getPlayer().getName()+"] ")
+                        .color(TextColor.color(255,50,50))
+                        .append(e.message());
+                for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+                    if(wp.getRole().equals(Role.WOLF)){
+                        wp.getPlayer().sendMessage(message);
+                    }
                 }
             }
         }

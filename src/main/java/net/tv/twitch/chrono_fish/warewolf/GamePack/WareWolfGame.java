@@ -26,7 +26,6 @@ public class WareWolfGame {
     private final GameManager gameManager;
     private final KillManager killManager;
     private final BossBarManager bossBarManager;
-    private final WolfChat wolfChat;
 
     public WareWolfGame(WareWolf wareWolf){
         this.wareWolf = wareWolf;
@@ -40,7 +39,6 @@ public class WareWolfGame {
         gameManager = new GameManager(wareWolf,this);
         killManager = new KillManager(this);
         bossBarManager = new BossBarManager(this);
-        wolfChat = new WolfChat(alivePlayers);
     }
 
     public GameState getGameState() { return gameState; }
@@ -58,5 +56,4 @@ public class WareWolfGame {
     public GameManager getGameManager() { return gameManager;}
     public BossBarManager getBossBarManager() { return bossBarManager; }
     public KillManager getKillManager() { return killManager; }
-    public WolfChat getWolfChat() { return wolfChat; }
 }

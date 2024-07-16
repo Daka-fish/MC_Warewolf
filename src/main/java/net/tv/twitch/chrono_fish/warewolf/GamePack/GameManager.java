@@ -78,6 +78,7 @@ public class GameManager {
                     wareWolfGame.setTimeZone(TimeZone.DAY);
                     break;
             }
+            wareWolfGame.getBossBarManager().reloadBar();
         }
     }
 
@@ -108,7 +109,7 @@ public class GameManager {
             wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
             wareWolfGame.getKillManager().reset();
         }
-        checkWinner();
+        //checkWinner();
         if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
             changeTurn();
             new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,10,20);

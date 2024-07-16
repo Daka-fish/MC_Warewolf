@@ -33,7 +33,6 @@ public class Commands implements CommandExecutor {
                             wareWolfGame.setGameState(GameState.RUNNING);
                             wareWolfGame.setTimeZone(TimeZone.NIGHT);
                             wareWolfGame.getBossBarManager().reloadBar();
-                            wareWolfGame.getWolfChat().setAlivePlayer(wareWolfGame.getAlivePlayers());
                             new TimeZoneTask(wareWolf,wareWolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("a game is running, you can't start another one");
@@ -71,10 +70,6 @@ public class Commands implements CommandExecutor {
                         sender.sendMessage(Component.text("you send an unknown command").color(TextColor.color(255,100,100)));
                 }
             }
-             if(command.getName().equalsIgnoreCase("wolf")){
-                 String message = String.join(" ",args);
-                 wareWolfGame.getWolfChat().sendMessageWolf(snd, message);
-             }
         }
         return false;
     }
