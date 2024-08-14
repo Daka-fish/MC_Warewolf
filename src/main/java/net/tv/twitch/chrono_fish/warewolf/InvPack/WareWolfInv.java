@@ -2,7 +2,7 @@ package net.tv.twitch.chrono_fish.warewolf.InvPack;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.Bukkit;
@@ -15,11 +15,11 @@ public class WareWolfInv {
     private final Component voteName = Component.text("Who do you vote to ?").decorate(TextDecoration.ITALIC);
     private final Component killName = Component.text("Who do you kill ?").decorate(TextDecoration.ITALIC);
     private final Component protectName = Component.text("Who do you protect ?").decorate(TextDecoration.ITALIC);
-    private final WareWolfGame wareWolfGame;
+    private final WolfGame wolfGame;
     private final WareWolfItem wareWolfItem;
 
-    public WareWolfInv(){
-        wareWolfGame = WareWolf.getWareWolfgame();
+    public WareWolfInv(WolfGame wolfGame){
+        this.wolfGame = wolfGame;
         wareWolfItem = new WareWolfItem();
     }
 
@@ -40,7 +40,7 @@ public class WareWolfInv {
         for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) voteMenu.setItem(i, voidItem);
 
         int index=10;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             voteMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
             index++;
         };
@@ -71,7 +71,7 @@ public class WareWolfInv {
         for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) killMenu.setItem(i, voidItem);
 
         int index=10;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             killMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
             index++;
         };
@@ -92,7 +92,7 @@ public class WareWolfInv {
         for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) protectMenu.setItem(i, voidItem);
 
         int index=10;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             protectMenu.setItem(index,wareWolfItem.getPlayerHead(wp.getPlayer()));
             index++;
         };

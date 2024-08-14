@@ -17,36 +17,40 @@ import java.util.Map;
 public class GameManager {
 
     private final WareWolf wareWolf;
-    private final WareWolfGame wareWolfGame;
+    private final WolfGame wolfGame;
 
-    public GameManager(WareWolf wareWolf, WareWolfGame wareWolfGame){
+    public GameManager(WareWolf wareWolf, WolfGame wolfGame){
         this.wareWolf = wareWolf;
-        this.wareWolfGame = wareWolfGame;
+        this.wolfGame = wolfGame;
     }
 
     public void assignRole(){
         int index = 0;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
-            Player player = wp.getPlayer();
-            Role role = wareWolfGame.getRoles().get(index);
-            wareWolfGame.getScoreboardHashMap().get(player).updateRole(role);
-            wp.setRole(role);
-            WareWolf.putLog(player.getName()+" : "+ wp.getRole());
-            index++;
+        if(wolfGame.getAlivePlayers().size() == wolfGame.getRoles().size()){
+            for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
+                Player player = wp.getPlayer();
+                Role role = wolfGame.getRoles().get(index);
+                wolfGame.getScoreboardHashMap().get(player).updateRole(role);
+                wp.setRole(role);
+                WareWolf.putLog(player.getName()+" : "+ wp.getRole());
+                index++;
+            }
+        } else {
+            broadcast("役職の合計人数と参加者の人数を確認してください");
         }
     }
 
     public void setAlivePlayers(){
-        for(Map.Entry<Player, WareWolfPlayer> entry: wareWolfGame.getWareWolfPlayers().entrySet()){
+        for(Map.Entry<Player, WareWolfPlayer> entry: wolfGame.getWareWolfPlayers().entrySet()){
             WareWolfPlayer wareWolfPlayer = entry.getValue();
             if(wareWolfPlayer.isAline()){
-                wareWolfGame.getAlivePlayers().add(wareWolfPlayer);
+                wolfGame.getAlivePlayers().add(wareWolfPlayer);
             }
         }
     }
 
     public void setRoles(){
-        ArrayList<Role> roles = wareWolfGame.getRoles();
+        ArrayList<Role> roles = wolfGame.getRoles();
         roles.add(Role.INNOCENT);
         roles.add(Role.WOLF);
         Collections.shuffle(roles);
@@ -55,7 +59,7 @@ public class GameManager {
     public WareWolfPlayer getMostVoted(){
         int maxVoted = 0;
         WareWolfPlayer target = null;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             if(wp.getVotesCount() >= maxVoted){
                 target = wp;
             }
@@ -64,28 +68,28 @@ public class GameManager {
     }
 
     public void changeTurn(){
-        if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
-            switch (wareWolfGame.getTimeZone()){
+        if(wolfGame.getGameState().equals(GameState.RUNNING)){
+            switch (wolfGame.getTimeZone()){
                 case DAY:
-                    wareWolfGame.setTimeZone(TimeZone.VOTE);
+                    wolfGame.setTimeZone(TimeZone.VOTE);
                     break;
 
                 case VOTE:
-                    wareWolfGame.setTimeZone(TimeZone.NIGHT);
+                    wolfGame.setTimeZone(TimeZone.NIGHT);
                     break;
 
                 case NIGHT:
-                    wareWolfGame.setTimeZone(TimeZone.DAY);
+                    wolfGame.setTimeZone(TimeZone.DAY);
                     break;
             }
-            wareWolfGame.getBossBarManager().reloadBar();
+            wolfGame.getBossBarManager().reloadBar();
         }
     }
 
     public void checkWinner(){
         int whitePlayer = 0;
         int blackPlayer = 0;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             if(wp.getRole().getColor().equals("WHITE")){
                 whitePlayer ++;
             } else if(wp.getRole().getColor().equals("BLACK")){
@@ -93,32 +97,32 @@ public class GameManager {
             }
         }
         if(whitePlayer <= blackPlayer){
-            wareWolfGame.setGameState(GameState.FINISHED);
+            wolfGame.setGameState(GameState.FINISHED);
         }
     }
 
     public void timeZoneEndTask(){
-        TimeZone timeZone = wareWolfGame.getTimeZone();
+        TimeZone timeZone = wolfGame.getTimeZone();
         if(timeZone.equals(TimeZone.VOTE)){
             getMostVoted().getPlayer().setHealth(0);
-            wareWolfGame.getKillManager().setCurrentWolfs();
+            wolfGame.getKillManager().setCurrentWolfs();
         }
         else if(timeZone.equals(TimeZone.NIGHT)){
-            wareWolfGame.getKillManager().killPlayer();
+            wolfGame.getKillManager().killPlayer();
             setAlivePlayers();
-            wareWolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
-            wareWolfGame.getKillManager().reset();
+            wolfGame.getAlivePlayers().forEach(WareWolfPlayer::reset);
+            wolfGame.getKillManager().reset();
         }
-        //checkWinner();
-        if(wareWolfGame.getGameState().equals(GameState.RUNNING)){
+        checkWinner();
+        if(wolfGame.getGameState().equals(GameState.RUNNING)){
             changeTurn();
-            new TimeZoneTask(wareWolf, wareWolfGame).runTaskTimer(wareWolf,10,20);
+            new TimeZoneTask(wareWolf, wolfGame).runTaskTimer(wareWolf,10,20);
         }
     }
 
     public int countHasVote(){
         int hasVote = 0;
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             if(wp.isHasVote()) hasVote ++;
         }
         return hasVote;

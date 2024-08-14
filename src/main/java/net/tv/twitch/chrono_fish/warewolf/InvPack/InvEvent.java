@@ -1,7 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf.InvPack;
 
 import net.kyori.adventure.text.Component;
-import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
@@ -17,6 +17,12 @@ import java.util.HashMap;
 
 public class InvEvent implements Listener {
 
+    private WolfGame wolfGame;
+
+    public InvEvent(WolfGame wolfGame){
+        this.wolfGame = wolfGame;
+    }
+
     @EventHandler
     public void onClickInv(InventoryClickEvent e){
         if(e.getClickedInventory() != null){
@@ -25,10 +31,9 @@ public class InvEvent implements Listener {
                 Player player = (Player) e.getWhoClicked();
                 ItemStack clickedItem = e.getCurrentItem();
 
-                WareWolfInv wareWolfInv = new WareWolfInv();
-                WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
+                WareWolfInv wareWolfInv = new WareWolfInv(wolfGame);
 
-                WareWolfPlayer wp = wareWolfGame.getWareWolfPlayers().get(player);
+                WareWolfPlayer wp = wolfGame.getWareWolfPlayers().get(player);
 
                 switch (clickedItem.getType()){
                     case PAPER:
@@ -56,13 +61,13 @@ public class InvEvent implements Listener {
                         break;
 
                     case PLAYER_HEAD:
-                        HashMap<Player,WareWolfPlayer> players = wareWolfGame.getWareWolfPlayers();
+                        HashMap<Player,WareWolfPlayer> players = wolfGame.getWareWolfPlayers();
                         SkullMeta skullMeta = (SkullMeta) clickedItem.getItemMeta();
                         Player target = (Player) skullMeta.getOwningPlayer();
                         Component title = e.getView().title();
 
                         if(title.equals(wareWolfInv.getVoteName())){
-                            if(wareWolfGame.getTimeZone().equals(TimeZone.VOTE)){
+                            if(wolfGame.getTimeZone().equals(TimeZone.VOTE)){
                                 if(!players.get(player).isHasVote()){
                                     players.get(player).vote(players.get(target));
                                 } else {
@@ -73,7 +78,7 @@ public class InvEvent implements Listener {
                             }
 
                         } else if (title.equals(wareWolfInv.getKillName())) {
-                            if(wareWolfGame.getTimeZone().equals(TimeZone.NIGHT)){
+                            if(wolfGame.getTimeZone().equals(TimeZone.NIGHT)){
                                 if(!players.get(player).isHasActioned()){
                                     players.get(player).kill(players.get(target));
                                 } else {

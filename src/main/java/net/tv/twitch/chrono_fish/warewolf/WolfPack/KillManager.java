@@ -1,6 +1,6 @@
 package net.tv.twitch.chrono_fish.warewolf.WolfPack;
 
-import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 
@@ -9,18 +9,18 @@ import java.util.HashMap;
 
 public class KillManager {
 
-    private final WareWolfGame wareWolfGame;
+    private final WolfGame wolfGame;
     private final HashMap<WareWolfPlayer, WareWolfPlayer> wolfSelections;
     private final ArrayList<WareWolfPlayer> currentWolfs;
 
-    public KillManager(WareWolfGame wareWolfGame){
-        this.wareWolfGame = wareWolfGame;
+    public KillManager(WolfGame wolfGame){
+        this.wolfGame = wolfGame;
         currentWolfs = new ArrayList<>();
         wolfSelections = new HashMap<>();
     }
 
     public void setCurrentWolfs(){
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             if(wp.getRole().equals(Role.WOLF)){
                 currentWolfs.add(wp);
             }
@@ -41,7 +41,7 @@ public class KillManager {
             if(commonTarget == null){
                 commonTarget = selectedPayer;
             } else if (!commonTarget.equals(selectedPayer)) {
-                for(WareWolfPlayer wolfPlayer : wareWolfGame.getAlivePlayers()){
+                for(WareWolfPlayer wolfPlayer : wolfGame.getAlivePlayers()){
                     if(wolfPlayer.getRole().equals(Role.WOLF)){
                         wolfPlayer.getPlayer().sendMessage("you have to chose same target as your buddy do");
                         wolfPlayer.setHasActioned(false);
@@ -59,7 +59,7 @@ public class KillManager {
     }
 
     public void killPlayer(){
-        for(WareWolfPlayer wp : wareWolfGame.getAlivePlayers()){
+        for(WareWolfPlayer wp : wolfGame.getAlivePlayers()){
             if(!wp.isAline()){
                 wp.getPlayer().setHealth(0);
             }

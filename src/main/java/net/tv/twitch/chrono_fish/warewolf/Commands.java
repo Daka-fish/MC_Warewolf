@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.GameManager;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.GameState;
-import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfGame;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WareWolfInv;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZoneTask;
@@ -13,27 +13,32 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 public class Commands implements CommandExecutor {
+
+    private final WareWolf wareWolf;
+    private final WolfGame wolfGame;
+
+    public Commands(WareWolf wareWolf, WolfGame wolfGame){
+        this.wolfGame = wolfGame;
+        this.wareWolf = wareWolf;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(sender instanceof Player){
             Player snd = (Player) sender;
-            WareWolf wareWolf = WareWolf.getMain();
-            WareWolfGame wareWolfGame = WareWolf.getWareWolfgame();
-            GameManager gameManager = wareWolfGame.getGameManager();
+            GameManager gameManager = wolfGame.getGameManager();
             if(command.getName().equalsIgnoreCase("ww")){
                 switch (args[0]){
                     case "start":
-                        if(wareWolfGame.getGameState().equals(GameState.FINISHED)){
+                        if(wolfGame.getGameState().equals(GameState.FINISHED)){
                             gameManager.setAlivePlayers();
                             gameManager.setRoles();
                             gameManager.assignRole();
-                            wareWolfGame.setGameState(GameState.RUNNING);
-                            wareWolfGame.setTimeZone(TimeZone.NIGHT);
-                            wareWolfGame.getBossBarManager().reloadBar();
-                            new TimeZoneTask(wareWolf,wareWolfGame).runTaskTimer(wareWolf,0,20);
+                            wolfGame.setGameState(GameState.RUNNING);
+                            wolfGame.setTimeZone(TimeZone.NIGHT);
+                            wolfGame.getBossBarManager().reloadBar();
+                            new TimeZoneTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("a game is running, you can't start another one");
                         }
@@ -46,24 +51,24 @@ public class Commands implements CommandExecutor {
                         break;
 
                     case "end":
-                        wareWolfGame.setGameState(GameState.FINISHED);
-                        wareWolfGame.setTimeZone(TimeZone.DAY);
-                        wareWolfGame.getAlivePlayers().clear();
-                        wareWolfGame.getBossBarManager().reloadBar();
+                        wolfGame.setGameState(GameState.FINISHED);
+                        wolfGame.setTimeZone(TimeZone.DAY);
+                        wolfGame.getAlivePlayers().clear();
+                        wolfGame.getBossBarManager().reloadBar();
                         break;
 
                     case "vote":
-                        wareWolfGame.setTimeZone(TimeZone.VOTE);
-                        wareWolfGame.getBossBarManager().reloadBar();
+                        wolfGame.setTimeZone(TimeZone.VOTE);
+                        wolfGame.getBossBarManager().reloadBar();
                         break;
 
                     case "action":
-                        WareWolfInv wareWolfInv = new WareWolfInv();
+                        WareWolfInv wareWolfInv = new WareWolfInv(wolfGame);
                         snd.openInventory(wareWolfInv.actionInv());
                         break;
 
                     case "tstart":
-                        new TimeZoneTask(wareWolf,wareWolfGame).runTaskTimer(wareWolf,0,20);
+                        new TimeZoneTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         break;
 
                     default:

@@ -5,7 +5,6 @@ import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WareWolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import net.tv.twitch.chrono_fish.warewolf.WolfPack.KillManager;
-import net.tv.twitch.chrono_fish.warewolf.WolfPack.WolfChat;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.BossBarManager;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
 import org.bukkit.entity.Player;
@@ -13,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class WareWolfGame {
+public class WolfGame {
 
     private WareWolf wareWolf;
     private GameState gameState;
@@ -27,7 +26,7 @@ public class WareWolfGame {
     private final KillManager killManager;
     private final BossBarManager bossBarManager;
 
-    public WareWolfGame(WareWolf wareWolf){
+    public WolfGame(WareWolf wareWolf){
         this.wareWolf = wareWolf;
         gameState = GameState.FINISHED;
         timeZone = TimeZone.DAY;
@@ -56,4 +55,8 @@ public class WareWolfGame {
     public GameManager getGameManager() { return gameManager;}
     public BossBarManager getBossBarManager() { return bossBarManager; }
     public KillManager getKillManager() { return killManager; }
+
+    public void assignRole(){
+
+    }
 }
