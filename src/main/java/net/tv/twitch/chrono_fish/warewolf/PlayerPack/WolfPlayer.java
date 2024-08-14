@@ -1,10 +1,9 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
-import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.entity.Player;
 
-public class WareWolfPlayer {
+public class WolfPlayer {
 
     private final WolfGame wolfGame;
     private final Player player;
@@ -15,10 +14,10 @@ public class WareWolfPlayer {
     private boolean hasActioned;
     private boolean isProtected;
 
-    public WareWolfPlayer(Player player, Role role, WolfGame wolfGame){
+    public WolfPlayer(Player player, WolfGame wolfGame){
         this.wolfGame = wolfGame;
         this.player = player;
-        this.role = role;
+        this.role = Role.INNOCENT;
         votesCount = 0;
         isAline = true;
         hasVote = false;
@@ -53,26 +52,25 @@ public class WareWolfPlayer {
         isProtected = false;
     }
 
-    public void vote(WareWolfPlayer wp){
-        if(!player.equals(wp.getPlayer())){
+    public void vote(WolfPlayer voteTarget){
+        if(!player.equals(voteTarget.getPlayer())){
             if(!hasVote){
                 hasVote = true;
-                wp.setVotesCount(wp.getVotesCount()+1);
-                player.sendMessage("you vote to "+wp.getPlayer().getName());
-            } else {
-                player.sendMessage("you have already voted");
+                voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
+                player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
+            }else{
+                player.sendMessage("§c既に投票してます");
             }
-        } else {
-            player.sendMessage("you can't vote to yourself");
+        }else{
+            player.sendMessage("§c自分自身には投票できません");
         }
     }
 
-    public void kill(WareWolfPlayer wp){
+    public void kill(WolfPlayer wp){
         if(role.equals(Role.WOLF)){
             if(!player.equals(wp.getPlayer())){
                 if(!wp.getRole().equals(Role.WOLF)){
                     hasActioned = true;
-                    wolfGame.getKillManager().selectTarget(this, wp);
                 } else {
                     player.sendMessage("you can't kill your buddy");
                 }
@@ -82,12 +80,12 @@ public class WareWolfPlayer {
         }
     }
 
-    public void protect(WareWolfPlayer wp){
+    public void protect(WolfPlayer wp){
         player.sendMessage("you protect "+wp.getPlayer().getName());
         wp.setProtected(true);
     }
 
-    public void predict(WareWolfPlayer wp){
+    public void predict(WolfPlayer wp){
         player.sendMessage(wp.getRole().getColor());
     }
 }

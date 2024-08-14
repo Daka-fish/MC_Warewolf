@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WareWolfItem {
+public class WolfItem {
 
     public ItemStack getPlayerHead(Player player){
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);

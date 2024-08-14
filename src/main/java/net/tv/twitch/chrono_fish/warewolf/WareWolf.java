@@ -1,9 +1,9 @@
 package net.tv.twitch.chrono_fish.warewolf;
 
-import net.tv.twitch.chrono_fish.warewolf.GamePack.WareWolfEvent;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfEvent;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.InvEvent;
-import net.tv.twitch.chrono_fish.warewolf.WolfPack.WolfChat;
+import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,11 +18,10 @@ public final class WareWolf extends JavaPlugin {
     public void onEnable() {
         logger = getLogger();
 
-        WolfGame wolfGame = new WolfGame(this);
+        WolfGame wolfGame = new WolfGame();
         PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new WareWolfEvent(wolfGame), this);
-        pluginManager.registerEvents(new InvEvent(wolfGame), this);
-        pluginManager.registerEvents(new WolfChat(wolfGame), this);
+        pluginManager.registerEvents(new WolfEvent(wolfGame), this);
+        pluginManager.registerEvents(new InvEvent(wolfGame, new WolfInv(wolfGame)), this);
         getCommand("ww").setExecutor(new Commands(this, wolfGame));
     }
 
@@ -31,5 +30,5 @@ public final class WareWolf extends JavaPlugin {
         //save game information to file;
     }
 
-    public static void putLog(String message){ logger.info(message);}
+    public static void putLog(String message){logger.info(message);}
 }

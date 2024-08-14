@@ -2,12 +2,9 @@ package net.tv.twitch.chrono_fish.warewolf;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.tv.twitch.chrono_fish.warewolf.GamePack.GameManager;
-import net.tv.twitch.chrono_fish.warewolf.GamePack.GameState;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
-import net.tv.twitch.chrono_fish.warewolf.InvPack.WareWolfInv;
+import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
 import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
-import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZoneTask;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,18 +24,14 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if(sender instanceof Player){
             Player snd = (Player) sender;
-            GameManager gameManager = wolfGame.getGameManager();
             if(command.getName().equalsIgnoreCase("ww")){
                 switch (args[0]){
                     case "start":
-                        if(wolfGame.getGameState().equals(GameState.FINISHED)){
-                            gameManager.setAlivePlayers();
-                            gameManager.setRoles();
-                            gameManager.assignRole();
-                            wolfGame.setGameState(GameState.RUNNING);
+                        if(!wolfGame.getRunning()){
+                            wolfGame.setRoles();
+                            wolfGame.assignRole();
+                            wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
-                            wolfGame.getBossBarManager().reloadBar();
-                            new TimeZoneTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("a game is running, you can't start another one");
                         }
@@ -51,24 +44,17 @@ public class Commands implements CommandExecutor {
                         break;
 
                     case "end":
-                        wolfGame.setGameState(GameState.FINISHED);
+                        wolfGame.setRunning(false);
                         wolfGame.setTimeZone(TimeZone.DAY);
-                        wolfGame.getAlivePlayers().clear();
-                        wolfGame.getBossBarManager().reloadBar();
                         break;
 
                     case "vote":
                         wolfGame.setTimeZone(TimeZone.VOTE);
-                        wolfGame.getBossBarManager().reloadBar();
                         break;
 
                     case "action":
-                        WareWolfInv wareWolfInv = new WareWolfInv(wolfGame);
-                        snd.openInventory(wareWolfInv.actionInv());
-                        break;
-
-                    case "tstart":
-                        new TimeZoneTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
+                        WolfInv wolfInv = new WolfInv(wolfGame);
+                        snd.openInventory(wolfInv.voteInv());
                         break;
 
                     default:
