@@ -25,11 +25,11 @@ public class InvEvent implements Listener {
             if (e.getClickedInventory().getHolder() == null && e.getCurrentItem() != null) {
                 e.setCancelled(true);
                 if(e.getView().title().equals(wolfInv.getVoteName())){
-                    WolfPlayer clicker = wolfGame.findPlayer((Player) e.getWhoClicked());
+                    WolfPlayer clicker = wolfGame.getWolfPlayer((Player) e.getWhoClicked());
                     ItemStack skull = e.getCurrentItem();
                     SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
                     Player target = (Player) skullMeta.getOwningPlayer();
-                    WolfPlayer wolfPlayer = wolfGame.findPlayer(target);
+                    WolfPlayer wolfPlayer = wolfGame.getWolfPlayer(target);
                     clicker.vote(wolfPlayer);
                     clicker.getPlayer().closeInventory();
                 }

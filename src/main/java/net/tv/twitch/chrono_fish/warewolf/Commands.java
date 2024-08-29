@@ -1,10 +1,9 @@
 package net.tv.twitch.chrono_fish.warewolf;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.GameTask;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
-import net.tv.twitch.chrono_fish.warewolf.WorldManager.TimeZone;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,28 +27,13 @@ public class Commands implements CommandExecutor {
                 switch (args[0]){
                     case "start":
                         if(!wolfGame.getRunning()){
-                            wolfGame.setRoles();
-                            wolfGame.assignRole();
                             wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
+                            wolfGame.getRoleManager().assignRole();
+                            new GameTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
-                            snd.sendMessage("a game is running, you can't start another one");
+                            snd.sendMessage("§c別のゲームが進行中です");
                         }
-                        break;
-
-                    case "time":
-                        sender.sendMessage("昼 : "+TimeZone.DAY.getTime()+"秒\n" +
-                                "夜 : "+TimeZone.NIGHT.getTime()+"秒\n"+
-                                "投票時間 : "+TimeZone.VOTE.getTime()+"秒");
-                        break;
-
-                    case "end":
-                        wolfGame.setRunning(false);
-                        wolfGame.setTimeZone(TimeZone.DAY);
-                        break;
-
-                    case "vote":
-                        wolfGame.setTimeZone(TimeZone.VOTE);
                         break;
 
                     case "action":
@@ -58,7 +42,7 @@ public class Commands implements CommandExecutor {
                         break;
 
                     default:
-                        sender.sendMessage(Component.text("you send an unknown command").color(TextColor.color(255,100,100)));
+                        sender.sendMessage("§c不明なコマンド");
                 }
             }
         }

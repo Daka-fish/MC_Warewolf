@@ -9,55 +9,46 @@ public class WolfPlayer {
     private final Player player;
     private Role role;
     private int votesCount;
-    private boolean isAline;
+    private boolean isAlive;
     private boolean hasVote;
     private boolean hasActioned;
     private boolean isProtected;
 
-    public WolfPlayer(Player player, WolfGame wolfGame){
+    public WolfPlayer(WolfGame wolfGame, Player player){
         this.wolfGame = wolfGame;
         this.player = player;
         this.role = Role.INNOCENT;
-        votesCount = 0;
-        isAline = true;
-        hasVote = false;
-        hasActioned = false;
-        isProtected = false;
+        this.votesCount = 0;
+        this.isAlive = true;
+        this.hasVote = false;
+        this.hasActioned = false;
+        this.isProtected = false;
     }
 
-    public Player getPlayer() { return player; }
-
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
-
-    public int getVotesCount() { return votesCount; }
-    public void setVotesCount(int votesCount){ this.votesCount = votesCount; }
-
-    public boolean isAline() { return isAline; }
-    public void setAlive(boolean isAline){ this.isAline = isAline; }
-
-    public boolean isHasVote() { return hasVote; }
-    public void setHasVote(boolean hasVote) { this.hasVote = hasVote; }
-
-    public boolean isHasActioned() { return hasActioned; }
-    public void setHasActioned(boolean hasActioned) { this.hasActioned = hasActioned; }
-
-    public boolean isProtected() { return isProtected; }
-    public void setProtected(boolean isProtected) { this.isProtected = isProtected; }
-
-    public void reset(){
-        hasVote = false;
-        hasActioned = false;
-        votesCount = 0;
-        isProtected = false;
-    }
+    public Player getPlayer() {return player;}
+    public Role getRole() {return role;}
+    public void setRole(Role role) {this.role = role;}
+    public int getVotesCount() {return votesCount;}
+    public void setVotesCount(int votesCount){this.votesCount = votesCount;}
+    public boolean getIsAlive() {return isAlive;}
+    public void setAlive(boolean isAline){this.isAlive = isAline;}
+    public boolean hasVote() {return hasVote;}
+    public void setHasVote(boolean hasVote) {this.hasVote = hasVote;}
+    public boolean hasActioned() { return hasActioned; }
+    public void setHasActioned(boolean hasActioned) {this.hasActioned = hasActioned;}
+    public boolean isProtected() {return isProtected;}
+    public void setProtected(boolean isProtected) {this.isProtected = isProtected;}
 
     public void vote(WolfPlayer voteTarget){
         if(!player.equals(voteTarget.getPlayer())){
             if(!hasVote){
-                hasVote = true;
-                voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
-                player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
+                if(voteTarget.isAlive){
+                    hasVote = true;
+                    voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
+                    player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
+                }else{
+                    player.sendMessage("§c死亡しているプレイヤーには投票できません");
+                }
             }else{
                 player.sendMessage("§c既に投票してます");
             }
@@ -71,21 +62,37 @@ public class WolfPlayer {
             if(!player.equals(wp.getPlayer())){
                 if(!wp.getRole().equals(Role.WOLF)){
                     hasActioned = true;
+                    wolfGame.getWolfManager().addTarget(wp);
                 } else {
-                    player.sendMessage("you can't kill your buddy");
+                    player.sendMessage("§c仲間は選択できません");
                 }
             } else {
-                player.sendMessage("you can't kill yourself");
+                player.sendMessage("§c自分自身は選択できません");
             }
         }
     }
 
     public void protect(WolfPlayer wp){
-        player.sendMessage("you protect "+wp.getPlayer().getName());
-        wp.setProtected(true);
+        if(!wp.getPlayer().equals(player)){
+            if(!wp.equals(wolfGame.getKnightManager().getYesterdayTarget())){
+                hasActioned = true;
+                player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
+                wolfGame.getKnightManager().setYesterdayTarget(wp);
+                wp.setProtected(true);
+            }else{
+                player.sendMessage("§c昨晩と同じプレイヤーは選択できません");
+            }
+        }else{
+            player.sendMessage("§c自分を選択することはできません");
+        }
     }
 
     public void predict(WolfPlayer wp){
-        player.sendMessage(wp.getRole().getColor());
+        if(!wp.getPlayer().equals(player) && wp.getIsAlive()){
+            player.sendMessage(wp.getPlayer().getName()+"は "+wp.getRole().getColor());
+        }else{
+            player.sendMessage("§c自分または死者を選択することはできません");
+        }
+
     }
 }

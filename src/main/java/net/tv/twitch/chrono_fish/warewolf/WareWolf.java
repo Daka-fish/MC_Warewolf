@@ -12,12 +12,8 @@ import java.util.logging.Logger;
 
 public final class WareWolf extends JavaPlugin {
 
-    private static Logger logger;
-
     @Override
     public void onEnable() {
-        logger = getLogger();
-
         WolfGame wolfGame = new WolfGame();
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new WolfEvent(wolfGame), this);
@@ -30,5 +26,5 @@ public final class WareWolf extends JavaPlugin {
         //save game information to file;
     }
 
-    public static void putLog(String message){logger.info(message);}
+    public void sendLogger(String message){getLogger().info(message);}
 }

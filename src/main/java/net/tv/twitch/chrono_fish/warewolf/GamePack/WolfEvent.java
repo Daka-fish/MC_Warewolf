@@ -8,15 +8,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class WolfEvent implements Listener {
 
-    private WolfGame wolfGame;
+    private final WolfGame wolfGame;
 
-    public WolfEvent(WolfGame wolfGame){
-        this.wolfGame = wolfGame;
-    }
+    public WolfEvent(WolfGame wolfGame){this.wolfGame = wolfGame;}
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player joinedPlayer = e.getPlayer();
-        wolfGame.getAlivePlayers().add(new WolfPlayer(joinedPlayer,wolfGame));
+        wolfGame.getPlayers().add(new WolfPlayer(wolfGame, joinedPlayer));
     }
 }
