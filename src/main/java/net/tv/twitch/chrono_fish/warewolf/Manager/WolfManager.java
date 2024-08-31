@@ -21,14 +21,17 @@ public class WolfManager {
     }
 
     public void killTarget(){
-        Collections.shuffle(targetPool);
-        WolfPlayer target = targetPool.get(0);
-        if(target != null && !target.isProtected()){
-            target.setAlive(false);
-            wolfGame.sendMessage(target.getPlayer().getName()+"が何者かに殺された");
-        }else{
-            wolfGame.sendMessage("今晩の犠牲者はいなかった");
+        if(targetPool.size() != 0){
+            Collections.shuffle(targetPool);
+            WolfPlayer target = targetPool.get(0);
+            if(target != null && !target.isProtected()){
+                target.setAlive(false);
+                wolfGame.sendMessage(target.getPlayer().getName()+"が何者かに殺された");
+                return;
+            }
         }
+        wolfGame.sendMessage("昨晩の犠牲者はいなかった");
+
     }
 
     public void resetPool(){

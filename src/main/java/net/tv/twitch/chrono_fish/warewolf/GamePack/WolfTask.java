@@ -6,7 +6,7 @@ import net.tv.twitch.chrono_fish.warewolf.TimeZone;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GameTask extends BukkitRunnable {
+public class WolfTask extends BukkitRunnable {
 
     private final WareWolf wareWolf;
     private final WolfGame wolfGame;
@@ -14,27 +14,26 @@ public class GameTask extends BukkitRunnable {
     private final BossBar bossBar;
     private int time;
 
-    public GameTask(WareWolf wareWolf, WolfGame wolfGame){
+    public WolfTask(WareWolf wareWolf, WolfGame wolfGame){
         this.wareWolf = wareWolf;
         this.wolfGame = wolfGame;
         this.timeZone = wolfGame.getTimeZone();
-        this.bossBar = BossBar.bossBar(Component.text("§l-"+timeZone.getName()+"-"), 1.0F, BossBar.Color.valueOf(timeZone.getColor()), BossBar.Overlay.NOTCHED_20);
+        this.bossBar = BossBar.bossBar(Component.text("§l-"+wolfGame.getTimeZone().getName()+"-"), 1.0F, BossBar.Color.valueOf(wolfGame.getTimeZone().getColor()), BossBar.Overlay.NOTCHED_20);
         this.time = wolfGame.getTimeZone().getTime();
-        wolfGame.getPlayers().forEach(wolfPlayer -> wolfPlayer.getPlayer().showBossBar(bossBar));
+        wolfGame.getPlayers().forEach(wolfPlayer -> {
+            wolfPlayer.getPlayer().showBossBar(bossBar);
+        });
     }
 
     @Override
     public void run() {
         if(time == 0){
             cancel();
-            wolfGame.getPlayers().forEach(wolfPlayer -> wolfPlayer.getPlayer().hideBossBar(bossBar));
-            wolfGame.checkWinner();
-            if(wolfGame.getRunning()){
-                wolfGame.changeTurn();
-                new GameTask(wareWolf, wolfGame).runTaskTimer(wareWolf,100,20);
-            }else{
-                wolfGame.getPlayers().forEach(wolfPlayer -> wolfPlayer.getPlayer().hideBossBar(bossBar));
-            }
+            wolfGame.getPlayers().forEach(wolfPlayer -> {
+                wolfPlayer.getPlayer().closeInventory();
+                wolfPlayer.getPlayer().hideBossBar(bossBar);
+            });
+            wolfGame.getTimeZoneManager().timeZoneEnd();
             return;
         }
         wolfGame.getPlayers().forEach(wolfPlayer -> {

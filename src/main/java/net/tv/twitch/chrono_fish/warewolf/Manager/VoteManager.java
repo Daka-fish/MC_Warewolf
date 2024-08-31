@@ -12,7 +12,7 @@ public class VoteManager {
 
     public VoteManager(WolfGame wolfGame){this.wolfGame = wolfGame;}
 
-    public void kickMostVotePlayer(){
+    public void kickMostVotedPlayer(){
         int vote = 0;
         WolfPlayer target = null;
         ArrayList<WolfPlayer> players = wolfGame.getPlayers();

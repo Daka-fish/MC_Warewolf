@@ -1,9 +1,8 @@
 package net.tv.twitch.chrono_fish.warewolf;
 
-import net.tv.twitch.chrono_fish.warewolf.GamePack.GameTask;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfTask;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,11 +25,11 @@ public class Commands implements CommandExecutor {
             if(command.getName().equalsIgnoreCase("ww")){
                 switch (args[0]){
                     case "start":
-                        if(!wolfGame.getRunning()){
+                        if(!wolfGame.isRunning()){
                             wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
                             wolfGame.getRoleManager().assignRole();
-                            new GameTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
+                            new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("§c別のゲームが進行中です");
                         }
@@ -38,7 +37,11 @@ public class Commands implements CommandExecutor {
 
                     case "action":
                         WolfInv wolfInv = new WolfInv(wolfGame);
-                        snd.openInventory(wolfInv.voteInv());
+                        //snd.openInventory(wolfInv.voteInv());
+                        break;
+
+                    case "stop":
+                        wolfGame.checkWinner();
                         break;
 
                     default:

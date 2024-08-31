@@ -1,7 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf;
 
 public enum TimeZone {
-    DAY("昼", 10, "YELLOW"),
+    DAY("議論", 10, "YELLOW"),
     VOTE("投票", 10, "RED"),
     NIGHT("夜", 10, "PINK");
 

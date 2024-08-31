@@ -19,7 +19,7 @@ public class RoleManager {
         roles.add(Role.INNOCENT);
         roles.add(Role.INNOCENT);
         roles.add(Role.WOLF);
-        roles.add(Role.NIGHT);
+        roles.add(Role.KNIGHT);
     }
 
     public ArrayList<Role> getRoles() {return roles;}

@@ -1,6 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class WolfPlayer {
@@ -30,7 +31,7 @@ public class WolfPlayer {
     public void setRole(Role role) {this.role = role;}
     public int getVotesCount() {return votesCount;}
     public void setVotesCount(int votesCount){this.votesCount = votesCount;}
-    public boolean getIsAlive() {return isAlive;}
+    public boolean isAlive() {return isAlive;}
     public void setAlive(boolean isAline){this.isAlive = isAline;}
     public boolean hasVote() {return hasVote;}
     public void setHasVote(boolean hasVote) {this.hasVote = hasVote;}
@@ -41,11 +42,12 @@ public class WolfPlayer {
 
     public void vote(WolfPlayer voteTarget){
         if(!player.equals(voteTarget.getPlayer())){
-            if(!hasVote){
-                if(voteTarget.isAlive){
-                    hasVote = true;
+            if(!hasVote()){
+                if(voteTarget.isAlive()){
+                    setHasVote(true);
                     voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
                     player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
+                    player.getInventory().remove(Material.PAPER);
                 }else{
                     player.sendMessage("§c死亡しているプレイヤーには投票できません");
                 }
@@ -58,38 +60,61 @@ public class WolfPlayer {
     }
 
     public void kill(WolfPlayer wp){
-        if(role.equals(Role.WOLF)){
-            if(!player.equals(wp.getPlayer())){
-                if(!wp.getRole().equals(Role.WOLF)){
-                    hasActioned = true;
-                    wolfGame.getWolfManager().addTarget(wp);
+        if(getRole().equals(Role.WOLF)){
+            if(wolfGame.getDay() != 0){
+                if(!player.equals(wp.getPlayer())){
+                    if(!wp.getRole().equals(Role.WOLF)){
+                        if(!hasActioned()){
+                            setHasActioned(true);
+                            wolfGame.getWolfManager().addTarget(wp);
+                            player.sendMessage("§a"+wp.getPlayer().getName()+"§f を選択しました");
+                            player.getInventory().remove(Material.NETHERITE_AXE);
+                        }else{
+                            player.sendMessage("§c既に選択しています");
+                        }
+                    }else{
+                        player.sendMessage("§c仲間は選択できません");
+                    }
                 } else {
-                    player.sendMessage("§c仲間は選択できません");
+                    player.sendMessage("§c自身は選択できません");
                 }
-            } else {
-                player.sendMessage("§c自分自身は選択できません");
+            }else{
+                player.sendMessage("§c初日は殺害できません");
             }
         }
     }
 
     public void protect(WolfPlayer wp){
-        if(!wp.getPlayer().equals(player)){
-            if(!wp.equals(wolfGame.getKnightManager().getYesterdayTarget())){
-                hasActioned = true;
-                player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
-                wolfGame.getKnightManager().setYesterdayTarget(wp);
-                wp.setProtected(true);
+        if(getRole().equals(Role.KNIGHT)){
+            if(!wp.getPlayer().equals(player)){
+                if(hasActioned()){
+                    if(!wp.equals(wolfGame.getKnightManager().getYesterdayTarget())){
+                        setHasActioned(true);
+                        wolfGame.getKnightManager().setYesterdayTarget(wp);
+                        wp.setProtected(true);
+                        player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
+                        player.getInventory().remove(Material.IRON_SWORD);
+                    }else{
+                        player.sendMessage("§c昨晩と同じプレイヤーは選択できません");
+                    }
+                }else{
+                    player.sendMessage("§c既に選択しています");
+                }
             }else{
-                player.sendMessage("§c昨晩と同じプレイヤーは選択できません");
+                player.sendMessage("§c自身を選択することはできません");
             }
-        }else{
-            player.sendMessage("§c自分を選択することはできません");
         }
     }
 
     public void predict(WolfPlayer wp){
-        if(!wp.getPlayer().equals(player) && wp.getIsAlive()){
-            player.sendMessage(wp.getPlayer().getName()+"は "+wp.getRole().getColor());
+        //isUranai
+        if(!wp.getPlayer().equals(player) && wp.isAlive()){
+            if(hasActioned()){
+                player.sendMessage(wp.getPlayer().getName()+"は "+wp.getRole().getColor());
+                setHasActioned(true);
+            }else{
+                player.sendMessage("§c既に占いました");
+            }
         }else{
             player.sendMessage("§c自分または死者を選択することはできません");
         }
