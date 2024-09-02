@@ -17,12 +17,12 @@ public class RoleManager {
         roles = new ArrayList<>();
         roles.add(Role.INNOCENT);
         roles.add(Role.INNOCENT);
-        roles.add(Role.INNOCENT);
-        roles.add(Role.WOLF);
-        roles.add(Role.KNIGHT);
     }
 
-    public ArrayList<Role> getRoles() {return roles;}
+    public ArrayList<Role> getRoles() {
+        Collections.sort(roles);
+        return roles;
+    }
 
     public void assignRole(){
         int index = 0;
@@ -37,6 +37,6 @@ public class RoleManager {
         }
     }
 
-    public void addRole(Role role){}
-    public void removeRole(Role role){}
+    public void addRole(Role role){roles.add(role);}
+    public void removeRole(Role role){roles.remove(role);}
 }

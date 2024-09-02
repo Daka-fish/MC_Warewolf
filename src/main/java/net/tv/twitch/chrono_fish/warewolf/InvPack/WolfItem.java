@@ -1,9 +1,14 @@
 package net.tv.twitch.chrono_fish.warewolf.InvPack;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -19,6 +24,25 @@ public class WolfItem {
         headMeta.displayName(Component.text(player.getName()));
         head.setItemMeta(headMeta);
         return head;
+    }
+
+    public ItemStack getRoleBook(){
+        Component text = Component.text("役職の数を変更できます\n");
+        for(Role role : Role.values()){
+            text=text.append(Component.text("\n\n ・"+role.getRoleName()+"  "));
+            text=text.append(Component.text("+1").decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/ww add "+role.name()))
+                    .hoverEvent(HoverEvent.showText(Component.text(role.getRoleName()+"を1人増やします"))));
+            text=text.append(Component.text(" / "));
+            text=text.append(Component.text("-1").decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/ww leave "+role.name()))
+                    .hoverEvent(HoverEvent.showText(Component.text(role.getRoleName()+"を1人減らします"))));
+        }
+        ItemStack book = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta bookMeta = (BookMeta) book.getItemMeta();
+        bookMeta.setAuthor("You are the game master");
+        bookMeta.setTitle("Role Manager");
+        bookMeta.addPages(text);
+        book.setItemMeta(bookMeta);
+        return book;
     }
 
     public ItemStack getVotePaper(){

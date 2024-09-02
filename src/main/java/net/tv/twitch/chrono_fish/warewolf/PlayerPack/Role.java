@@ -1,9 +1,9 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 public enum Role {
-    INNOCENT("§a村人","白"),
-    WOLF("§c人狼","§c黒"),
-    KNIGHT("§9騎士","白");
+    INNOCENT("村人","白"),
+    WOLF("人狼","§c黒"),
+    KNIGHT("騎士","白");
 
     final String roleName;
     final String color;

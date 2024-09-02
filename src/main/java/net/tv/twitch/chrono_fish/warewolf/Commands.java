@@ -3,6 +3,8 @@ package net.tv.twitch.chrono_fish.warewolf;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfTask;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
+import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,6 +44,30 @@ public class Commands implements CommandExecutor {
 
                     case "stop":
                         wolfGame.checkWinner();
+                        break;
+
+                    case "book":
+                        snd.getInventory().addItem(new WolfItem().getRoleBook());
+                        break;
+
+                    case "add":
+                        if(args.length>1){
+                            wolfGame.getRoleManager().addRole(Role.valueOf(args[1]));
+                        }
+                        wolfGame.sendMessage("役職一覧");
+                        for(Role role : wolfGame.getRoleManager().getRoles()){
+                            snd.sendMessage(role.getRoleName());
+                        }
+                        break;
+
+                    case "leave":
+                        if(args.length>1){
+                            wolfGame.getRoleManager().removeRole(Role.valueOf(args[1]));
+                        }
+                        wolfGame.sendMessage("役職一覧");
+                        for(Role role : wolfGame.getRoleManager().getRoles()){
+                            snd.sendMessage(role.getRoleName());
+                        }
                         break;
 
                     default:

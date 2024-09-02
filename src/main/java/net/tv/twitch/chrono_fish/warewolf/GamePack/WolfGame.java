@@ -18,6 +18,7 @@ public class WolfGame {
     private TimeZone timeZone;
     private final ArrayList<WolfPlayer> players;
 
+    private final ConfigManager configManager;
     private final TimeZoneManager timeZoneManager;
     private final RoleManager roleManager;
     private final VoteManager voteManager;
@@ -30,6 +31,7 @@ public class WolfGame {
         this.isRunning = false;
         this.timeZone = TimeZone.DAY;
         this.players = new ArrayList<>();
+        this.configManager = new ConfigManager(this);
         this.timeZoneManager = new TimeZoneManager(wareWolf, this);
         this.roleManager = new RoleManager(this);
         this.voteManager = new VoteManager(this);
@@ -45,6 +47,7 @@ public class WolfGame {
     public void setTimeZone(TimeZone timeZone) {this.timeZone = timeZone;}
     public ArrayList<WolfPlayer> getPlayers() {return players;}
 
+    public ConfigManager getConfigManager() {return configManager;}
     public TimeZoneManager getTimeZoneManager() {return timeZoneManager;}
     public RoleManager getRoleManager() {return roleManager;}
     public VoteManager getVoteManager() {return voteManager;}
