@@ -15,6 +15,8 @@ public class WolfPlayer {
     private boolean hasActioned;
     private boolean isProtected;
 
+    private final WolfScoreboard wolfScoreboard;
+
     public WolfPlayer(WolfGame wolfGame, Player player){
         this.wolfGame = wolfGame;
         this.player = player;
@@ -24,6 +26,7 @@ public class WolfPlayer {
         this.hasVote = false;
         this.hasActioned = false;
         this.isProtected = false;
+        this.wolfScoreboard = new WolfScoreboard(this);
     }
 
     public Player getPlayer() {return player;}
@@ -39,6 +42,8 @@ public class WolfPlayer {
     public void setHasActioned(boolean hasActioned) {this.hasActioned = hasActioned;}
     public boolean isProtected() {return isProtected;}
     public void setProtected(boolean isProtected) {this.isProtected = isProtected;}
+
+    public WolfScoreboard getWolfScoreboard() {return wolfScoreboard;}
 
     public void vote(WolfPlayer voteTarget){
         if(!player.equals(voteTarget.getPlayer())){
@@ -87,7 +92,7 @@ public class WolfPlayer {
     public void protect(WolfPlayer wp){
         if(getRole().equals(Role.KNIGHT)){
             if(!wp.getPlayer().equals(player)){
-                if(hasActioned()){
+                if(!hasActioned()){
                     if(!wp.equals(wolfGame.getKnightManager().getYesterdayTarget())){
                         setHasActioned(true);
                         wolfGame.getKnightManager().setYesterdayTarget(wp);
@@ -107,17 +112,17 @@ public class WolfPlayer {
     }
 
     public void predict(WolfPlayer wp){
-        //isUranai
-        if(!wp.getPlayer().equals(player) && wp.isAlive()){
-            if(hasActioned()){
-                player.sendMessage(wp.getPlayer().getName()+"は "+wp.getRole().getColor());
-                setHasActioned(true);
+        if(getRole().equals(Role.SEER)){
+            if(!wp.getPlayer().equals(player) && wp.isAlive()){
+                if(!hasActioned()){
+                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
+                    setHasActioned(true);
+                }else{
+                    player.sendMessage("§c既に占いました");
+                }
             }else{
-                player.sendMessage("§c既に占いました");
+                player.sendMessage("§c自分または死者を選択することはできません");
             }
-        }else{
-            player.sendMessage("§c自分または死者を選択することはできません");
         }
-
     }
 }
