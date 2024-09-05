@@ -15,7 +15,7 @@ public class VoteManager {
     public void kickMostVotedPlayer(){
         int vote = 0;
         WolfPlayer target = null;
-        ArrayList<WolfPlayer> players = wolfGame.getPlayers();
+        ArrayList<WolfPlayer> players = wolfGame.getWolfPlayers();
         Collections.shuffle(players);
         for(WolfPlayer wp : players){
             if(wp.getVotesCount()>vote){

@@ -17,6 +17,18 @@ import java.util.List;
 
 public class WolfItem {
 
+    private final ArrayList<ItemStack> roleItems;
+
+    public WolfItem(){
+        this.roleItems = new ArrayList<>();
+        roleItems.add(getKillItem());
+        roleItems.add(getProtectItem());
+        roleItems.add(getPredictItem());
+        roleItems.add(getMediumItem());
+    }
+
+    public ArrayList<ItemStack> getRoleItems() {return roleItems;}
+
     public ItemStack getPlayerHead(Player player){
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
@@ -86,7 +98,7 @@ public class WolfItem {
         return protectItem;
     }
 
-    public ItemStack getFortuneTellerItem(){
+    public ItemStack getPredictItem(){
         return new ItemStack(Material.SPYGLASS);
     }
 

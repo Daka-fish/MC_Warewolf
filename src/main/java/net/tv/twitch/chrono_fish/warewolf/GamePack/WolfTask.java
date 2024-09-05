@@ -20,7 +20,7 @@ public class WolfTask extends BukkitRunnable {
         this.timeZone = wolfGame.getTimeZone();
         this.bossBar = BossBar.bossBar(Component.text("§l-"+wolfGame.getTimeZone().getName()+"-"), 1.0F, BossBar.Color.valueOf(wolfGame.getTimeZone().getColor()), BossBar.Overlay.NOTCHED_20);
         this.time = wolfGame.getTimeZone().getTime();
-        wolfGame.getPlayers().forEach(wolfPlayer -> {
+        wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
             wolfPlayer.getPlayer().showBossBar(bossBar);
         });
     }
@@ -29,14 +29,14 @@ public class WolfTask extends BukkitRunnable {
     public void run() {
         if(time == 0){
             cancel();
-            wolfGame.getPlayers().forEach(wolfPlayer -> {
+            wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
                 wolfPlayer.getPlayer().closeInventory();
                 wolfPlayer.getPlayer().hideBossBar(bossBar);
             });
             wolfGame.getTimeZoneManager().timeZoneEnd();
             return;
         }
-        wolfGame.getPlayers().forEach(wolfPlayer -> {
+        wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
             bossBar.progress((float) time/timeZone.getTime());
             wolfPlayer.getPlayer().showBossBar(bossBar);
         });

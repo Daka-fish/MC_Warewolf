@@ -54,7 +54,7 @@ public class WolfInv {
         for(int i = 0; i < size; i++) if (i % 9 == 0 || (i + 1) % 9 == 0) inventory.setItem(i, voidItem);
 
         int index=10;
-        for(WolfPlayer wp : wolfGame.getPlayers()){
+        for(WolfPlayer wp : wolfGame.getWolfPlayers()){
             inventory.setItem(index, wolfItem.getPlayerHead(wp.getPlayer()));
             index++;
         }

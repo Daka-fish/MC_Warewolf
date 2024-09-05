@@ -29,6 +29,7 @@ public class WolfPlayer {
         this.wolfScoreboard = new WolfScoreboard(this);
     }
 
+    public WolfGame getWolfGame() {return wolfGame;}
     public Player getPlayer() {return player;}
     public Role getRole() {return role;}
     public void setRole(Role role) {this.role = role;}
@@ -52,7 +53,7 @@ public class WolfPlayer {
                     setHasVote(true);
                     voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
                     player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
-                    player.getInventory().remove(Material.PAPER);
+                    player.getInventory().remove(wolfGame.getWolfItem().getVotePaper());
                 }else{
                     player.sendMessage("§c死亡しているプレイヤーには投票できません");
                 }
@@ -73,7 +74,7 @@ public class WolfPlayer {
                             setHasActioned(true);
                             wolfGame.getWolfManager().addTarget(wp);
                             player.sendMessage("§a"+wp.getPlayer().getName()+"§f を選択しました");
-                            player.getInventory().remove(Material.NETHERITE_AXE);
+                            player.getInventory().remove(wolfGame.getWolfItem().getKillItem());
                         }else{
                             player.sendMessage("§c既に選択しています");
                         }
@@ -98,7 +99,7 @@ public class WolfPlayer {
                         wolfGame.getKnightManager().setYesterdayTarget(wp);
                         wp.setProtected(true);
                         player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
-                        player.getInventory().remove(Material.IRON_SWORD);
+                        player.getInventory().remove(wolfGame.getWolfItem().getProtectItem());
                     }else{
                         player.sendMessage("§c昨晩と同じプレイヤーは選択できません");
                     }
@@ -115,8 +116,9 @@ public class WolfPlayer {
         if(getRole().equals(Role.SEER)){
             if(!wp.getPlayer().equals(player) && wp.isAlive()){
                 if(!hasActioned()){
-                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
                     setHasActioned(true);
+                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
+                    player.getInventory().remove(wolfGame.getWolfItem().getPredictItem());
                 }else{
                     player.sendMessage("§c既に占いました");
                 }

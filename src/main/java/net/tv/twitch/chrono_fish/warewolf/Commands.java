@@ -31,6 +31,11 @@ public class Commands implements CommandExecutor {
                             wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
                             wolfGame.getRoleManager().assignRole();
+                            wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
+                                wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"】です");
+                                wolfPlayer.getWolfScoreboard().resetRoleScore();
+                                wolfPlayer.getWolfScoreboard().resetAlivePlayers();
+                            });
                             new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("§c別のゲームが進行中です");

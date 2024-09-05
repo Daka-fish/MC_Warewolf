@@ -30,13 +30,14 @@ public class WolfEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player joinedPlayer = e.getPlayer();
-        wolfGame.getPlayers().add(new WolfPlayer(wolfGame, joinedPlayer));
+        wolfGame.getWolfPlayers().add(new WolfPlayer(wolfGame, joinedPlayer));
+        wolfGame.getWolfPlayers().forEach(wolfPlayer -> wolfPlayer.getWolfScoreboard().resetAlivePlayers());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         Player quitter = e.getPlayer();
-        wolfGame.getPlayers().remove(wolfGame.getWolfPlayer(quitter));
+        wolfGame.getWolfPlayers().remove(wolfGame.getWolfPlayer(quitter));
     }
 
     @EventHandler

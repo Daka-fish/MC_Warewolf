@@ -27,7 +27,7 @@ public class RoleManager {
     public void assignRole(){
         int index = 0;
         Collections.shuffle(roles);
-        for(WolfPlayer wolfPlayer : wolfGame.getPlayers()){
+        for(WolfPlayer wolfPlayer : wolfGame.getWolfPlayers()){
             if(index >= roles.size()){
                 wolfPlayer.setRole(Role.INNOCENT);
                 continue;
