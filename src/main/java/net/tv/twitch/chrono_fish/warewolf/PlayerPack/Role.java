@@ -6,7 +6,7 @@ public enum Role {
     KNIGHT("§a騎士","白"),
     SEER("§a占い師","白"),
     MEDIUM("§a霊媒師","白"),
-    MADMAN("§a狂人", "白");
+    MADMAN("§c狂人", "白");
 
     final String roleName;
     final String color;

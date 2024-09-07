@@ -8,9 +8,7 @@ public class KnightManager {
     private final WolfGame wolfGame;
     private WolfPlayer yesterdayTarget;
 
-    public KnightManager(WolfGame wolfGame){
-        this.wolfGame = wolfGame;
-    }
+    public KnightManager(WolfGame wolfGame){this.wolfGame = wolfGame;}
 
     public void setYesterdayTarget(WolfPlayer target) {this.yesterdayTarget = target;}
     public WolfPlayer getYesterdayTarget() {return yesterdayTarget;}

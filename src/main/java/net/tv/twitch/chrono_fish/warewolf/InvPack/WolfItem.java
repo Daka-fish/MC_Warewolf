@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,13 +18,15 @@ import java.util.List;
 
 public class WolfItem {
 
+    private final WolfGame wolfGame;
     private final ArrayList<ItemStack> roleItems;
 
-    public WolfItem(){
+    public WolfItem(WolfGame wolfGame){
+        this.wolfGame = wolfGame;
         this.roleItems = new ArrayList<>();
         roleItems.add(getKillItem());
         roleItems.add(getProtectItem());
-        roleItems.add(getPredictItem());
+        roleItems.add(getSeerItem());
         roleItems.add(getMediumItem());
     }
 
@@ -34,6 +37,9 @@ public class WolfItem {
         SkullMeta headMeta = (SkullMeta) head.getItemMeta();
         headMeta.setOwningPlayer(player);
         headMeta.displayName(Component.text(player.getName()));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("状況: "+(wolfGame.getWolfPlayer(player).isAlive() ? "§a生存" : "§c死亡")));
+        headMeta.lore(lore);
         head.setItemMeta(headMeta);
         return head;
     }
@@ -98,11 +104,25 @@ public class WolfItem {
         return protectItem;
     }
 
-    public ItemStack getPredictItem(){
-        return new ItemStack(Material.SPYGLASS);
+    public ItemStack getSeerItem(){
+        ItemStack predictItem = new ItemStack(Material.ENDER_EYE);
+        ItemMeta predictMeta = predictItem.getItemMeta();
+        predictMeta.displayName(Component.text("占い"));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("open predict menu"));
+        predictMeta.lore(lore);
+        predictItem.setItemMeta(predictMeta);
+        return predictItem;
     }
 
     public ItemStack getMediumItem(){
-        return new ItemStack(Material.WOODEN_SHOVEL);
+        ItemStack mediumItem = new ItemStack(Material.WOODEN_SHOVEL);
+        ItemMeta mediumMeta = mediumItem.getItemMeta();
+        mediumMeta.displayName(Component.text("霊媒"));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("open medium menu"));
+        mediumMeta.lore(lore);
+        mediumItem.setItemMeta(mediumMeta);
+        return mediumItem;
     }
 }

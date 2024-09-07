@@ -40,7 +40,7 @@ public class WolfGame {
         this.voteManager = new VoteManager(this);
         this.wolfManager = new WolfManager(this);
         this.knightManager = new KnightManager(this);
-        this.wolfItem = new WolfItem();
+        this.wolfItem = new WolfItem(this);
     }
 
     public int getDay() {return day;}
@@ -119,20 +119,23 @@ public class WolfGame {
         wolfPlayers.forEach(wolfPlayer -> {
             switch (wolfPlayer.getRole()){
                 case WOLF:
-                    wolfPlayer.getPlayer().sendMessage("追加されたアイテムを右クリックで行動してください");
                     wolfPlayer.getPlayer().getInventory().addItem(wolfItem.getKillItem());
                     break;
 
                 case KNIGHT:
-                    wolfPlayer.getPlayer().sendMessage("追加されたアイテムを右クリックで行動してください");
                     wolfPlayer.getPlayer().getInventory().addItem(wolfItem.getProtectItem());
                     break;
 
-                case INNOCENT:
-                    wolfPlayer.getPlayer().sendMessage("市民が夜の間にできる行動はありません");
+                case SEER:
+                    wolfPlayer.getPlayer().getInventory().addItem(wolfItem.getSeerItem());
+                    break;
+
+                case MEDIUM:
+                    wolfPlayer.getPlayer().getInventory().addItem(wolfItem.getMediumItem());
                     break;
 
                 default:
+                    wolfPlayer.getPlayer().sendMessage("あなたが夜の間にできる行動はありません");
                     break;
             }
         });

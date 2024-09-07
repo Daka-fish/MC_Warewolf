@@ -1,10 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf.Manager;
 
-import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfTask;
-import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import net.tv.twitch.chrono_fish.warewolf.TimeZone;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.Bukkit;
@@ -15,16 +12,10 @@ public class TimeZoneManager {
     private final WareWolf wareWolf;
     private final WolfGame wolfGame;
 
-    private BossBar bossBar;
-
     public TimeZoneManager(WareWolf wareWolf, WolfGame wolfGame){
         this.wareWolf = wareWolf;
         this.wolfGame = wolfGame;
-        this.bossBar = BossBar.bossBar(Component.text("§l-"+wolfGame.getTimeZone().getName()+"-"), 1.0F, BossBar.Color.valueOf(wolfGame.getTimeZone().getColor()), BossBar.Overlay.NOTCHED_20);
     }
-
-    public BossBar getBossBar() {return bossBar;}
-    public void resetBossBar() {this.bossBar = BossBar.bossBar(Component.text("§l-"+wolfGame.getTimeZone().getName()+"-"), 1.0F, BossBar.Color.valueOf(wolfGame.getTimeZone().getColor()), BossBar.Overlay.NOTCHED_20);}
 
     public void timeZoneEnd(){
         switch(wolfGame.getTimeZone()){
@@ -32,7 +23,7 @@ public class TimeZoneManager {
                 if(wolfGame.isRunning()){
                     wolfGame.setTimeZone(TimeZone.VOTE);
                     wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
-                        if(wolfPlayer.isAlive()) wolfPlayer.getPlayer().getInventory().addItem(new WolfItem().getVotePaper());
+                        if(wolfPlayer.isAlive()) wolfPlayer.getPlayer().getInventory().addItem(wolfGame.getWolfItem().getVotePaper());
                     });
                     wolfGame.sendMessage("投票の時間になりました、紙を右クリックして投票してください");
                     new WolfTask(wareWolf,wolfGame).runTaskTimer(wareWolf,0,20);
@@ -47,7 +38,7 @@ public class TimeZoneManager {
                     //wolfGame.checkWinner();
                     if(wolfGame.isRunning()){
                         wolfGame.setTimeZone(TimeZone.NIGHT);
-                        wolfGame.sendMessage("夜になりました");
+                        wolfGame.sendMessage("夜になりました、追加されたアイテムを右クリックで行動してください");
                         wolfGame.giveRoleItem();
                         new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                     }

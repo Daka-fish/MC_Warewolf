@@ -1,7 +1,6 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class WolfPlayer {
@@ -118,12 +117,28 @@ public class WolfPlayer {
                 if(!hasActioned()){
                     setHasActioned(true);
                     player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
-                    player.getInventory().remove(wolfGame.getWolfItem().getPredictItem());
+                    player.getInventory().remove(wolfGame.getWolfItem().getSeerItem());
                 }else{
                     player.sendMessage("§c既に占いました");
                 }
             }else{
                 player.sendMessage("§c自分または死者を選択することはできません");
+            }
+        }
+    }
+
+    public void medium(WolfPlayer wp){
+        if(getRole().equals(Role.MEDIUM)){
+            if(!wp.getPlayer().equals(player) && !wp.isAlive()){
+                if(!hasActioned()){
+                    setHasActioned(true);
+                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
+                    player.getInventory().remove(wolfGame.getWolfItem().getMediumItem());
+                }else{
+                    player.sendMessage("§既に死体を漁りました");
+                }
+            }else{
+                player.sendMessage("§c自分または生存者を選択することはできません");
             }
         }
     }

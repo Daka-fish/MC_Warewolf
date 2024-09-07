@@ -1,6 +1,8 @@
 package net.tv.twitch.chrono_fish.warewolf.Manager;
 
+import net.kyori.adventure.text.Component;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WolfPlayer;
 
 import java.util.ArrayList;
@@ -9,11 +11,16 @@ import java.util.Collections;
 public class WolfManager {
 
     private final WolfGame wolfGame;
+    private final ArrayList<WolfPlayer> wolfs;
     private final ArrayList<WolfPlayer> targetPool;
 
     public WolfManager(WolfGame wolfGame){
         this.wolfGame = wolfGame;
+        this.wolfs = new ArrayList<>();
         this.targetPool = new ArrayList<>();
+        for(WolfPlayer wp : wolfGame.getWolfPlayers()){
+            if(wp.getRole().equals(Role.WOLF)) wolfs.add(wp);
+        }
     }
 
     public void addTarget(WolfPlayer wolfPlayer){
@@ -34,7 +41,13 @@ public class WolfManager {
 
     }
 
-    public void resetPool(){
-        targetPool.clear();
+    public void resetPool(){targetPool.clear();}
+
+    public void sendWolfMessage(String message){
+        wolfs.forEach(wolfPlayer -> wolfPlayer.getPlayer().sendMessage(message));
+    }
+
+    public void sendWolfMessage(Component message){
+        wolfs.forEach(wolfPlayer -> wolfPlayer.getPlayer().sendMessage(message));
     }
 }

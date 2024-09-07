@@ -30,11 +30,11 @@ public class Commands implements CommandExecutor {
                         if(!wolfGame.isRunning()){
                             wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
+                            wolfGame.setDay(0);
                             wolfGame.getRoleManager().assignRole();
                             wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
-                                wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"】です");
+                                wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"§f】です");
                                 wolfPlayer.getWolfScoreboard().resetRoleScore();
-                                wolfPlayer.getWolfScoreboard().resetAlivePlayers();
                             });
                             new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
@@ -52,7 +52,7 @@ public class Commands implements CommandExecutor {
                         break;
 
                     case "book":
-                        snd.getInventory().addItem(new WolfItem().getRoleBook());
+                        snd.getInventory().addItem(wolfGame.getWolfItem().getRoleBook());
                         break;
 
                     case "add":

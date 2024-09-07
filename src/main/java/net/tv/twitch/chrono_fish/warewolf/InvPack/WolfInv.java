@@ -14,17 +14,21 @@ public class WolfInv {
     private final Component voteName = Component.text("Who do you vote to?").decorate(TextDecoration.ITALIC);
     private final Component killName = Component.text("Who do you kill?").decorate(TextDecoration.ITALIC);
     private final Component protectName = Component.text("Who do you protect?").decorate(TextDecoration.ITALIC);
+    private final Component seerName = Component.text("Who do you predict?").decorate(TextDecoration.ITALIC);
+    private final Component mediumName = Component.text("Whose body do you see?").decorate(TextDecoration.ITALIC);
     private final WolfGame wolfGame;
     private final WolfItem wolfItem;
 
     public WolfInv(WolfGame wolfGame){
         this.wolfGame = wolfGame;
-        wolfItem = new WolfItem();
+        wolfItem = new WolfItem(wolfGame);
     }
 
-    public Component getVoteName() {return voteName; }
-    public Component getKillName() { return killName; }
-    public Component getProtectName() {return protectName; }
+    public Component getVoteName() {return voteName;}
+    public Component getKillName() {return killName;}
+    public Component getProtectName() {return protectName;}
+    public Component getSeerName() {return seerName;}
+    public Component getMediumName() {return mediumName;}
 
     public Inventory getVoteInventory(Player player) {
         Inventory voteMenu = Bukkit.createInventory(player, 54, voteName);
@@ -42,6 +46,18 @@ public class WolfInv {
         Inventory protectMenu = Bukkit.createInventory(player, 54,protectName);
         setHeads(protectMenu);
         return protectMenu;
+    }
+
+    public Inventory getSeerInventory(Player player){
+        Inventory seerMenu = Bukkit.createInventory(player,54, seerName);
+        setHeads(seerMenu);
+        return seerMenu;
+    }
+
+    public Inventory getMediumInventory(Player player){
+        Inventory mediumMenu = Bukkit.createInventory(player,54, mediumName);
+        setHeads(mediumMenu);
+        return mediumMenu;
     }
 
     public void setHeads(Inventory inventory){
