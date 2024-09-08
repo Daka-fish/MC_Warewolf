@@ -67,6 +67,8 @@ public class WolfGame {
             wolfPlayer.setHasActioned(false);
             wolfPlayer.setVotesCount(0);
             wolfPlayer.setProtected(false);
+            wolfPlayer.getWolfScoreboard().resetOwnScore();
+            wolfPlayer.getWolfScoreboard().setOwnScore();
         });
     }
 

@@ -35,6 +35,8 @@ public class Commands implements CommandExecutor {
                             wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
                                 wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"§f】です");
                                 wolfPlayer.getWolfScoreboard().resetRoleScore();
+                                wolfPlayer.getWolfScoreboard().removeOwnScore();
+                                wolfPlayer.getWolfScoreboard().setOwnScore();
                             });
                             new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {

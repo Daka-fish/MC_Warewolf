@@ -34,32 +34,40 @@ public class WolfScoreboard {
         obj.getScore("+あなたの役職:").setScore(-1);
         obj.getScore(roleScore).setScore(-2);
         obj.getScore(" ").setScore(-3);
+        obj.getScore("§7------").setScore(-4);
+        obj.getScore("   ").setScore(-9);
     }
 
     public void setOwnScore(){
-        obj.getScore("§7------").setScore(-4);
-        obj.getScore("  ").setScore(-5);
         switch(wolfPlayer.getRole()){
             case WOLF:
-                obj.getScore("+仲間").setScore(-6);
-
-
-
-
-
+                obj.getScore("+仲間").setScore(-5);
+                int i = -6;
+                for(WolfPlayer wolf : wolfPlayer.getWolfGame().getWolfManager().getWolfs()){
+                    if(!wolf.equals(wolfPlayer)){
+                        obj.getScore("  └ §c" + wolf.getPlayer().getName()).setScore(i);
+                        i--;
+                    }
+                }
                 break;
 
             case KNIGHT:
                 knightScore = "  └ §7UNKNOWN";
-                obj.getScore("+昨夜の選択").setScore(-6);
-                obj.getScore(knightScore).setScore(-8);
+                obj.getScore("+昨夜の選択").setScore(-5);
+                obj.getScore(knightScore).setScore(-6);
                 break;
 
             default:
                 alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers();
-                obj.getScore("+生存人数").setScore(-6);
-                obj.getScore(alivePlayers).setScore(-7);
+                obj.getScore("+生存人数").setScore(-5);
+                obj.getScore(alivePlayers).setScore(-6);
                 break;
+        }
+    }
+
+    public void removeOwnScore(){
+        for(String entry : board.getEntries()){
+            if(obj.getScore(entry).getScore() != -9 && obj.getScore(entry).getScore() < -4) board.resetScores(entry);
         }
     }
 
@@ -74,8 +82,9 @@ public class WolfScoreboard {
             case KNIGHT:
                 WolfPlayer exTarget = wolfPlayer.getWolfGame().getKnightManager().getYesterdayTarget();
                 board.resetScores(knightScore);
-                knightScore = exTarget!=null ? wolfPlayer.getWolfGame().getKnightManager().getYesterdayTarget().getPlayer().getName() : "§7UNKNOWN";
-                obj.getScore(knightScore).setScore(-7);
+                knightScore = "  └ " + (exTarget!=null ? wolfPlayer.getWolfGame().getKnightManager().getYesterdayTarget().getPlayer().getName() : "§7UNKNOWN");
+                obj.getScore("+昨夜の選択").setScore(-5);
+                obj.getScore(knightScore).setScore(-6);
                 break;
 
             case WOLF:
@@ -84,7 +93,7 @@ public class WolfScoreboard {
             default:
                 board.resetScores(alivePlayers);
                 alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers();
-                obj.getScore(alivePlayers).setScore(-7);
+                obj.getScore(alivePlayers).setScore(-6);
                 break;
         }
     }

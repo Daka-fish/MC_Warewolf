@@ -23,6 +23,8 @@ public class WolfManager {
         }
     }
 
+    public ArrayList<WolfPlayer> getWolfs() {return wolfs;}
+
     public void addTarget(WolfPlayer wolfPlayer){
         targetPool.add(wolfPlayer);
     }
