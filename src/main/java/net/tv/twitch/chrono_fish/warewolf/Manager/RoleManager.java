@@ -14,9 +14,7 @@ public class RoleManager {
 
     public RoleManager(WolfGame wolfGame){
         this.wolfGame = wolfGame;
-        roles = new ArrayList<>();
-        roles.add(Role.INNOCENT);
-        roles.add(Role.INNOCENT);
+        this.roles = wolfGame.getConfigManager().getRoles();
     }
 
     public ArrayList<Role> getRoles() {

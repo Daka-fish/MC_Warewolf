@@ -34,7 +34,7 @@ public class WolfGame {
         this.isRunning = false;
         this.timeZone = TimeZone.DAY;
         this.wolfPlayers = new ArrayList<>();
-        this.configManager = new ConfigManager(this);
+        this.configManager = new ConfigManager(wareWolf);
         this.timeZoneManager = new TimeZoneManager(wareWolf, this);
         this.roleManager = new RoleManager(this);
         this.voteManager = new VoteManager(this);
@@ -80,9 +80,9 @@ public class WolfGame {
         int whiteCount = 0;
         int blackCount = 0;
         for(WolfPlayer wolfPlayer : alivePlayers){
-            if(wolfPlayer.getRole().getColor().equalsIgnoreCase(Role.INNOCENT.getColor())){
+            if(wolfPlayer.getRole().getSide() == 0){
                 whiteCount ++;
-            } else if (wolfPlayer.getRole().getColor().equalsIgnoreCase(Role.WOLF.getColor())) {
+            } else if (wolfPlayer.getRole().getSide() == 1) {
                 blackCount ++;
             }
         }

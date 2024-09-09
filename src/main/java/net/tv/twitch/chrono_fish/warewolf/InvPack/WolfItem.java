@@ -29,25 +29,12 @@ public class WolfItem {
         roleItems.add(getSeerItem());
         roleItems.add(getMediumItem());
     }
-
-    public ArrayList<ItemStack> getRoleItems() {return roleItems;}
-
-    public ItemStack getPlayerHead(Player player){
-        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        headMeta.setOwningPlayer(player);
-        headMeta.displayName(Component.text(player.getName()));
-        List<Component> lore = new ArrayList<>();
-        lore.add(Component.text("状況: "+(wolfGame.getWolfPlayer(player).isAlive() ? "§a生存" : "§c死亡")));
-        headMeta.lore(lore);
-        head.setItemMeta(headMeta);
-        return head;
-    }
-
     public ItemStack getRoleBook(){
-        Component text = Component.text("役職の数を変更できます\n");
+        Component text = Component.text("");
+        text = text.append(Component.text("+現在の役職一覧\n").decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/ww roleList"))
+                .hoverEvent(HoverEvent.showText(Component.text(("現在の役職設定を表示します")))));
         for(Role role : Role.values()){
-            text=text.append(Component.text("\n\n ・"+role.getRoleName()+"  "));
+            text=text.append(Component.text("\n\n ・"+role.getRoleId()+"  "));
             text=text.append(Component.text("+1").decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/ww add "+role.name()))
                     .hoverEvent(HoverEvent.showText(Component.text(role.getRoleName()+"を1人増やします"))));
             text=text.append(Component.text(" / "));
@@ -61,6 +48,20 @@ public class WolfItem {
         bookMeta.addPages(text);
         book.setItemMeta(bookMeta);
         return book;
+    }
+
+    public ArrayList<ItemStack> getRoleItems() {return roleItems;}
+
+    public ItemStack getPlayerHead(Player player){
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
+        headMeta.setOwningPlayer(player);
+        headMeta.displayName(Component.text(player.getName()));
+        List<Component> lore = new ArrayList<>();
+        lore.add(Component.text("状況: "+(wolfGame.getWolfPlayer(player).isAlive() ? "§a生存" : "§c死亡")));
+        headMeta.lore(lore);
+        head.setItemMeta(headMeta);
+        return head;
     }
 
     public ItemStack getVotePaper(){

@@ -2,8 +2,6 @@ package net.tv.twitch.chrono_fish.warewolf;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfTask;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
-import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
-import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -44,11 +42,6 @@ public class Commands implements CommandExecutor {
                         }
                         break;
 
-                    case "action":
-                        WolfInv wolfInv = new WolfInv(wolfGame);
-                        //snd.openInventory(wolfInv.voteInv());
-                        break;
-
                     case "stop":
                         wolfGame.checkWinner();
                         break;
@@ -59,19 +52,22 @@ public class Commands implements CommandExecutor {
 
                     case "add":
                         if(args.length>1){
-                            wolfGame.getRoleManager().addRole(Role.valueOf(args[1]));
-                        }
-                        wolfGame.sendMessage("役職一覧");
-                        for(Role role : wolfGame.getRoleManager().getRoles()){
-                            snd.sendMessage(role.getRoleName());
+                            Role role = Role.valueOf(args[1]);
+                            wolfGame.getRoleManager().addRole(role);
+                            snd.sendMessage(role.getRoleName()+" §fを1人増やしました");
                         }
                         break;
 
                     case "leave":
                         if(args.length>1){
-                            wolfGame.getRoleManager().removeRole(Role.valueOf(args[1]));
+                            Role role = Role.valueOf(args[1]);
+                            wolfGame.getRoleManager().removeRole(role);
+                            snd.sendMessage(role.getRoleName()+" §fを1人減らしました");
                         }
-                        wolfGame.sendMessage("役職一覧");
+                        break;
+
+                    case "roleList":
+                        snd.sendMessage("[役職一覧]");
                         for(Role role : wolfGame.getRoleManager().getRoles()){
                             snd.sendMessage(role.getRoleName());
                         }

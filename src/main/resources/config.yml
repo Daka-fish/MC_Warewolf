@@ -1,5 +1,8 @@
 wareWolf:
   roles:
-    INNOCENT: 0
-    WOLF:
-    KNIGHT:
+    INNOCENT: 2
+    WOLF: 2
+    KNIGHT: 1
+    SEER: 1
+    MEDIUM: 1
+    MADMAN: 1

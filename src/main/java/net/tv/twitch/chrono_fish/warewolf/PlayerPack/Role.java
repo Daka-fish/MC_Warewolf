@@ -1,21 +1,30 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 public enum Role {
-    INNOCENT("§a村人","白"),
-    WOLF("§c人狼","§c黒"),
-    KNIGHT("§a騎士","白"),
-    SEER("§a占い師","白"),
-    MEDIUM("§a霊媒師","白"),
-    MADMAN("§c狂人", "白");
+    INNOCENT("村人","白",0),
+    WOLF("人狼","§c黒",1),
+    KNIGHT("騎士","白",0),
+    SEER("占い師","白",0),
+    MEDIUM("霊媒師","白",0),
+    MADMAN("狂人", "白",1);
 
     final String roleName;
     final String color;
+    final int side;
 
-    Role(String roleName, String color){
+    Role(String roleName, String color, int side){
         this.roleName = roleName;
         this.color = color;
+        this.side = side;
     }
 
-    public String getRoleName() { return roleName; }
-    public String getColor() { return color; }
+    public String getRoleId(){return roleName;}
+    public String getRoleName() {
+        if(side == 0){
+            return "§a"+roleName;
+        }
+        return "§c"+roleName;
+    }
+    public String getColor() {return color;}
+    public int getSide() {return side;}
 }
