@@ -2,7 +2,6 @@ package net.tv.twitch.chrono_fish.warewolf.GamePack;
 
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import net.tv.twitch.chrono_fish.warewolf.Manager.*;
-import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WolfPlayer;
 import net.tv.twitch.chrono_fish.warewolf.TimeZone;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
@@ -67,7 +66,6 @@ public class WolfGame {
             wolfPlayer.setHasActioned(false);
             wolfPlayer.setVotesCount(0);
             wolfPlayer.setProtected(false);
-            wolfPlayer.getWolfScoreboard().resetOwnScore();
             wolfPlayer.getWolfScoreboard().setOwnScore();
         });
     }

@@ -54,7 +54,7 @@ public class Commands implements CommandExecutor {
                         if(args.length>1){
                             Role role = Role.valueOf(args[1]);
                             wolfGame.getRoleManager().addRole(role);
-                            snd.sendMessage(role.getRoleName()+" §fを1人増やしました");
+                            snd.sendMessage(role.getRoleName()+"§fを1人増やしました");
                         }
                         break;
 
@@ -62,7 +62,7 @@ public class Commands implements CommandExecutor {
                         if(args.length>1){
                             Role role = Role.valueOf(args[1]);
                             wolfGame.getRoleManager().removeRole(role);
-                            snd.sendMessage(role.getRoleName()+" §fを1人減らしました");
+                            snd.sendMessage(role.getRoleName()+"§fを1人減らしました");
                         }
                         break;
 

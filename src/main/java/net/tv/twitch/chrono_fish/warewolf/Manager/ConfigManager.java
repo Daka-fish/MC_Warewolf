@@ -37,8 +37,28 @@ public class ConfigManager {
         return configRole;
     }
 
-    public void addConfigRole(Role role){}
+    public void addConfigRole(Role role){
+        ConfigurationSection section = config.getConfigurationSection("wareWolf.roles");
+        if(section != null){
+            for(String roleName : section.getKeys(false)){
+                if(roleName.equalsIgnoreCase(role.name())){
+                    section.set(roleName, section.getInt(roleName)+1);
+                }
+            }
+        }
+        wareWolf.saveConfig();
+    }
 
-    public void removeConfigRole(Role role){}
+    public void removeConfigRole(Role role){
+        ConfigurationSection section = config.getConfigurationSection("wareWolf.roles");
+        if(section != null){
+            for(String roleName : section.getKeys(false)){
+                if(roleName.equalsIgnoreCase(role.name())){
+                    section.set(roleName, section.getInt(roleName)-1);
+                }
+            }
+        }
+        wareWolf.saveConfig();
+    }
 
 }

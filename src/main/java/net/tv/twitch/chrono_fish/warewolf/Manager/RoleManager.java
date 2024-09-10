@@ -35,6 +35,12 @@ public class RoleManager {
         }
     }
 
-    public void addRole(Role role){roles.add(role);}
-    public void removeRole(Role role){roles.remove(role);}
+    public void addRole(Role role){
+        roles.add(role);
+        wolfGame.getConfigManager().addConfigRole(role);
+    }
+    public void removeRole(Role role){
+        roles.remove(role);
+        wolfGame.getConfigManager().removeConfigRole(role);
+    }
 }

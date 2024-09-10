@@ -30,7 +30,7 @@ public class WolfItem {
         roleItems.add(getMediumItem());
     }
     public ItemStack getRoleBook(){
-        Component text = Component.text("");
+        Component text = Component.text("　");
         text = text.append(Component.text("+現在の役職一覧\n").decorate(TextDecoration.UNDERLINED).clickEvent(ClickEvent.runCommand("/ww roleList"))
                 .hoverEvent(HoverEvent.showText(Component.text(("現在の役職設定を表示します")))));
         for(Role role : Role.values()){

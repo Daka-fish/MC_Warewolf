@@ -18,6 +18,7 @@ public class TimeZoneManager {
     }
 
     public void timeZoneEnd(){
+        wolfGame.getWolfPlayers().forEach(wolfPlayer -> wolfPlayer.getWolfScoreboard().resetOwnScore());
         switch(wolfGame.getTimeZone()){
             case DAY:
                 if(wolfGame.isRunning()){
