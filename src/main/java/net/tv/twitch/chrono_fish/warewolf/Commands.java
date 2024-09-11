@@ -74,10 +74,20 @@ public class Commands implements CommandExecutor {
                         break;
 
                     case "time":
-                        if(args.length>2){
-                            TimeZone timeZone = TimeZone.valueOf(args[1].toUpperCase());
-                            timeZone.setTime(Integer.parseInt(args[2]));
-                            snd.sendMessage(timeZone.getName()+"の時間を"+timeZone.getTime()+"に変更しました");
+                        if(args.length == 1){
+                            snd.sendMessage("[時間設定]");
+                            for(TimeZone timeZone : TimeZone.values()){
+                                snd.sendMessage(timeZone.getName() +": §a"+timeZone.getTime()+"§f秒");
+                            }
+                        }else if(args.length>2){
+                            try{
+                                TimeZone timeZone = TimeZone.valueOf(args[1].toUpperCase());
+                                timeZone.setTime(Integer.parseInt(args[2]));
+                                wolfGame.getConfigManager().setConfigTime(timeZone, timeZone.getTime());
+                                snd.sendMessage(timeZone.getName()+"の時間を§e"+timeZone.getTime()+"§f秒に変更しました");
+                            } catch (IllegalArgumentException e) {
+                                snd.sendMessage("§c/ww time {timezone} {time}");
+                            }
                         }
                         break;
 

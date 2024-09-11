@@ -40,6 +40,10 @@ public class WolfGame {
         this.wolfManager = new WolfManager(this);
         this.knightManager = new KnightManager(this);
         this.wolfItem = new WolfItem(this);
+
+        for(TimeZone tz : TimeZone.values()){
+            tz.setTime(configManager.getConfigTime(tz));
+        }
     }
 
     public int getDay() {return day;}
