@@ -6,7 +6,7 @@ public enum TimeZone {
     NIGHT("夜", 10, "PINK");
 
     private final String name;
-    private final int time;
+    private int time;
     private final String color;
 
     TimeZone(String name, int time, String color){
@@ -16,6 +16,7 @@ public enum TimeZone {
     }
 
     public String getName() { return name; }
+    public void setTime(int time) {this.time = time;}
     public int getTime() { return time; }
     public String getColor() { return color; }
 }

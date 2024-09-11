@@ -1,6 +1,7 @@
 package net.tv.twitch.chrono_fish.warewolf.Manager;
 
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
+import net.tv.twitch.chrono_fish.warewolf.TimeZone;
 import net.tv.twitch.chrono_fish.warewolf.WareWolf;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -58,6 +59,13 @@ public class ConfigManager {
                 }
             }
         }
+        wareWolf.saveConfig();
+    }
+
+    public int getConfigTime(TimeZone timeZone){return config.getInt("wareWolf.rules.time."+timeZone.name());}
+
+    public void setConfigTime(TimeZone timeZone, int time){
+        config.set("wareWolf.rules.time."+timeZone.name(), time);
         wareWolf.saveConfig();
     }
 

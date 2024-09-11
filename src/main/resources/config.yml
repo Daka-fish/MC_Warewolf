@@ -6,3 +6,8 @@ wareWolf:
     SEER: 1
     MEDIUM: 1
     MADMAN: 1
+  rules:
+    time:
+      DAY: 10
+      VOTE: 10
+      NIGHT: 10

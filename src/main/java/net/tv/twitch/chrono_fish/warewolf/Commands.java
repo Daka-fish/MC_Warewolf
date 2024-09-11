@@ -73,6 +73,14 @@ public class Commands implements CommandExecutor {
                         }
                         break;
 
+                    case "time":
+                        if(args.length>2){
+                            TimeZone timeZone = TimeZone.valueOf(args[1].toUpperCase());
+                            timeZone.setTime(Integer.parseInt(args[2]));
+                            snd.sendMessage(timeZone.getName()+"の時間を"+timeZone.getTime()+"に変更しました");
+                        }
+                        break;
+
                     default:
                         sender.sendMessage("§c不明なコマンド");
                 }
