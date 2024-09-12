@@ -8,6 +8,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+
 public class Commands implements CommandExecutor {
 
     private final WareWolf wareWolf;
@@ -67,10 +69,12 @@ public class Commands implements CommandExecutor {
                         break;
 
                     case "roleList":
-                        snd.sendMessage("[役職一覧]");
-                        for(Role role : wolfGame.getRoleManager().getRoles()){
-                            snd.sendMessage(role.getRoleName());
+                        StringBuilder roles = new StringBuilder("[役職一覧]\n");
+                        ArrayList<Role> roleList = wolfGame.getRoleManager().getRoles();
+                        for(Role role : roleList){
+                            roles.append(role.getRoleName()).append("§f/");
                         }
+                        snd.sendMessage(roles.toString());
                         break;
 
                     case "time":
