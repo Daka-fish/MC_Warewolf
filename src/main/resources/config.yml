@@ -11,3 +11,4 @@ wareWolf:
       DAY: 10
       VOTE: 10
       NIGHT: 10
+    consecutive-protect: false
