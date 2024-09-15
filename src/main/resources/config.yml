@@ -6,6 +6,7 @@ wareWolf:
     SEER: 1
     MEDIUM: 1
     MADMAN: 1
+    FOX: 0
   rules:
     time:
       DAY: 10
