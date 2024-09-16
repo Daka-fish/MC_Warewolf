@@ -24,6 +24,7 @@ public class WolfGame {
     private final VoteManager voteManager;
     private final WolfManager wolfManager;
     private final KnightManager knightManager;
+    private final FoxManager foxManager;
 
     private final WolfItem wolfItem;
 
@@ -39,6 +40,7 @@ public class WolfGame {
         this.voteManager = new VoteManager(this);
         this.wolfManager = new WolfManager(this);
         this.knightManager = new KnightManager(this);
+        this.foxManager = new FoxManager(this);
         this.wolfItem = new WolfItem(this);
 
         for(TimeZone tz : TimeZone.values()){
@@ -95,6 +97,10 @@ public class WolfGame {
         }else if(0 == blackCount){
             setRunning(false);
             sendMessage("ゲーム終了、市民の勝ち");
+        }
+        if(foxManager.getFoxPlayer() != null && foxManager.getFoxPlayer().isAlive()){
+            sendLogger("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            sendMessage("ゲーム終了、§a羊の勝ち");
         }
         wolfPlayers.forEach(player->sendMessage(player.getPlayer().getName() +" : "+ player.getRole().getRoleName()));
     }
