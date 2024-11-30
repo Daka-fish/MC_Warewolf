@@ -3,10 +3,12 @@ package net.tv.twitch.chrono_fish.warewolf;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfTask;
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
+import net.tv.twitch.chrono_fish.warewolf.PlayerPack.WolfPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -21,7 +23,7 @@ public class Commands implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         if(sender instanceof Player){
             Player snd = (Player) sender;
             if(command.getName().equalsIgnoreCase("ww")){
@@ -30,7 +32,7 @@ public class Commands implements CommandExecutor {
                         if(!wolfGame.isRunning()){
                             wolfGame.setRunning(true);
                             wolfGame.setTimeZone(TimeZone.NIGHT);
-                            wolfGame.setDay(0);
+                            wolfGame.setDayCount(0);
                             wolfGame.getRoleManager().assignRole();
                             wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
                                 wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"§f】です");
@@ -91,6 +93,24 @@ public class Commands implements CommandExecutor {
                                 snd.sendMessage(timeZone.getName()+"の時間を§e"+timeZone.getTime()+"§f秒に変更しました");
                             } catch (IllegalArgumentException e) {
                                 snd.sendMessage("§c/ww time {timezone} {time}");
+                            }
+                        }
+                        break;
+
+                    case "set":
+                        if(snd.isOp()){
+                            //ww set name role
+                            if(args.length < 3){
+                                snd.sendMessage("§c/ww set {player name} {role}");
+                                return false;
+                            }
+                            WolfPlayer target = wolfGame.getWolfPlayer(wareWolf.getServer().getPlayer(args[1]));
+                            try{
+                                Role role = Role.valueOf(args[2].toUpperCase());
+                                target.setRole(role);
+                            } catch (IllegalArgumentException e) {
+                                snd.sendMessage("§cロールが見つかりませんでした");
+                                throw new RuntimeException(e);
                             }
                         }
                         break;

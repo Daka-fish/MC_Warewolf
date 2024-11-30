@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class WolfGame {
 
-    private final WareWolf wareWolf;
-    private int day;
+    private int dayCount;
     private boolean isRunning;
     private TimeZone timeZone;
     private final ArrayList<WolfPlayer> wolfPlayers;
@@ -21,26 +21,19 @@ public class WolfGame {
     private final ConfigManager configManager;
     private final TimeZoneManager timeZoneManager;
     private final RoleManager roleManager;
-    private final VoteManager voteManager;
     private final WolfManager wolfManager;
-    private final KnightManager knightManager;
-    private final FoxManager foxManager;
 
     private final WolfItem wolfItem;
 
     public WolfGame(WareWolf wareWolf){
-        this.wareWolf = wareWolf;
-        this.day = 0;
+        this.dayCount = 0;
         this.isRunning = false;
         this.timeZone = TimeZone.DAY;
         this.wolfPlayers = new ArrayList<>();
         this.configManager = new ConfigManager(wareWolf);
         this.timeZoneManager = new TimeZoneManager(wareWolf, this);
         this.roleManager = new RoleManager(this);
-        this.voteManager = new VoteManager(this);
         this.wolfManager = new WolfManager(this);
-        this.knightManager = new KnightManager(this);
-        this.foxManager = new FoxManager(this);
         this.wolfItem = new WolfItem(this);
 
         for(TimeZone tz : TimeZone.values()){
@@ -48,8 +41,8 @@ public class WolfGame {
         }
     }
 
-    public int getDay() {return day;}
-    public void setDay(int day) {this.day = day;}
+    public int getDayCount() {return dayCount;}
+    public void setDayCount(int dayCount) {this.dayCount = dayCount;}
     public boolean isRunning() {return isRunning;}
     public void setRunning(boolean running) {this.isRunning = running;}
     public TimeZone getTimeZone() {return timeZone;}
@@ -59,11 +52,9 @@ public class WolfGame {
     public ConfigManager getConfigManager() {return configManager;}
     public TimeZoneManager getTimeZoneManager() {return timeZoneManager;}
     public RoleManager getRoleManager() {return roleManager;}
-    public VoteManager getVoteManager() {return voteManager;}
     public WolfManager getWolfManager() {return wolfManager;}
-    public KnightManager getKnightManager() {return knightManager;}
 
-    public WolfItem getWolfItem() {return wolfItem;}
+    public WolfItem getWolfItem() {return wolfItem;} //不必要
 
     public void resetDailyStatus(){
         wolfManager.resetPool();
@@ -98,15 +89,10 @@ public class WolfGame {
             setRunning(false);
             sendMessage("ゲーム終了、市民の勝ち");
         }
-        if(foxManager.getFoxPlayer() != null && foxManager.getFoxPlayer().isAlive()){
-            sendLogger("\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            sendMessage("ゲーム終了、§a羊の勝ち");
-        }
         wolfPlayers.forEach(player->sendMessage(player.getPlayer().getName() +" : "+ player.getRole().getRoleName()));
     }
 
     public void sendMessage(String message){getWolfPlayers().forEach(player -> player.getPlayer().sendMessage("[人狼]"+message));}
-    public void sendLogger(String message){wareWolf.putLogger(message);}
 
     public WolfPlayer getWolfPlayer(Player player){
         for(WolfPlayer wp : getWolfPlayers()){
@@ -157,5 +143,24 @@ public class WolfGame {
                 if(wolfPlayer.getPlayer().getInventory().contains(roleItem)) wolfPlayer.getPlayer().getInventory().remove(roleItem);
             }
         });
+    }
+
+    public void kickMostVotedPlayer(){
+        int vote = 0;
+        WolfPlayer mostVoted = null;
+        ArrayList<WolfPlayer> players = getWolfPlayers();
+        Collections.shuffle(players); //同数の場合のランダム処理
+        for(WolfPlayer wp : players){
+            if(wp.getVotesCount()>vote){
+                mostVoted = wp;
+                vote = wp.getVotesCount();
+            }
+        }
+        if(mostVoted != null){
+            mostVoted.setAlive(false);
+            sendMessage("投票によって§c"+mostVoted.getPlayer().getName()+"§fを追放しました");
+            return;
+        }
+        sendMessage("追放者はいませんでした");
     }
 }

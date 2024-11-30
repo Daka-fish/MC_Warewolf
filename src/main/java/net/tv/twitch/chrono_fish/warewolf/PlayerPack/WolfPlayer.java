@@ -9,6 +9,7 @@ public class WolfPlayer {
     private final Player player;
     private Role role;
     private int votesCount;
+    private WolfPlayer target;
     private boolean isAlive;
     private boolean hasVote;
     private boolean hasActioned;
@@ -34,11 +35,12 @@ public class WolfPlayer {
     public void setRole(Role role) {this.role = role;}
     public int getVotesCount() {return votesCount;}
     public void setVotesCount(int votesCount){this.votesCount = votesCount;}
+    public WolfPlayer getTarget() {return target;}
     public boolean isAlive() {return isAlive;}
     public void setAlive(boolean isAline){this.isAlive = isAline;}
     public boolean hasVote() {return hasVote;}
     public void setHasVote(boolean hasVote) {this.hasVote = hasVote;}
-    public boolean hasActioned() { return hasActioned; }
+    public boolean hasActioned() {return hasActioned;}
     public void setHasActioned(boolean hasActioned) {this.hasActioned = hasActioned;}
     public boolean isProtected() {return isProtected;}
     public void setProtected(boolean isProtected) {this.isProtected = isProtected;}
@@ -66,7 +68,7 @@ public class WolfPlayer {
 
     public void kill(WolfPlayer wp){
         if(getRole().equals(Role.WOLF)){
-            if(wolfGame.getDay() != 0){
+            if(wolfGame.getDayCount() != 0){
                 if(!player.equals(wp.getPlayer())){
                     if(!wp.getRole().equals(Role.WOLF)){
                         if(!hasActioned()){
@@ -93,9 +95,9 @@ public class WolfPlayer {
         if(getRole().equals(Role.KNIGHT)){
             if(!wp.getPlayer().equals(player)){
                 if(!hasActioned()){
-                    if(!wp.equals(wolfGame.getKnightManager().getYesterdayTarget())){
+                    if(!wp.equals(target)){
+                        target = wp;
                         setHasActioned(true);
-                        wolfGame.getKnightManager().setYesterdayTarget(wp);
                         wp.setProtected(true);
                         player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
                         player.getInventory().remove(wolfGame.getWolfItem().getProtectItem());

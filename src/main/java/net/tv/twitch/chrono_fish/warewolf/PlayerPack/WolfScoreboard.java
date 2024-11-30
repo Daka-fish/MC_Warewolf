@@ -80,9 +80,9 @@ public class WolfScoreboard {
     public void resetOwnScore(){
         switch(wolfPlayer.getRole()){
             case KNIGHT:
-                WolfPlayer exTarget = wolfPlayer.getWolfGame().getKnightManager().getYesterdayTarget();
+                WolfPlayer exTarget = wolfPlayer.getTarget();
                 board.resetScores(knightScore);
-                knightScore = "  └ " + (exTarget!=null ? wolfPlayer.getWolfGame().getKnightManager().getYesterdayTarget().getPlayer().getName() : "§7UNKNOWN");
+                knightScore = "  └ " + (exTarget!=null ? wolfPlayer.getTarget().getPlayer().getName() : "§7UNKNOWN");
                 obj.getScore("+昨夜の選択").setScore(-5);
                 obj.getScore(knightScore).setScore(-6);
                 break;
