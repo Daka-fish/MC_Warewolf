@@ -18,22 +18,22 @@ public class TimeZoneManager {
     }
 
     public void timeZoneEnd(){
-        wolfGame.getWolfPlayers().forEach(wolfPlayer -> wolfPlayer.getWolfScoreboard().resetOwnScore());
+        wolfGame.getParticipants().forEach(wolfPlayer -> wolfPlayer.getWolfScoreboard().resetOwnScore());
         switch(wolfGame.getTimeZone()){
             case DAY:
                 if(wolfGame.isRunning()){
                     wolfGame.setTimeZone(TimeZone.VOTE);
-                    wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
+                    wolfGame.getParticipants().forEach(wolfPlayer -> {
                         if(wolfPlayer.isAlive()) wolfPlayer.getPlayer().getInventory().addItem(wolfGame.getWolfItem().getVotePaper());
                     });
                     wolfGame.sendMessage("投票の時間になりました、紙を右クリックして投票してください");
-                    new WolfTask(wareWolf,wolfGame).runTaskTimer(wareWolf,0,20);
+                    new WolfTask(wolfGame).runTaskTimer(wareWolf,0,20);
                 }
                 break;
 
             case VOTE:
                 wolfGame.sendMessage("投票の結果. . .");
-                wolfGame.getWolfPlayers().forEach(wolfPlayer -> wolfPlayer.getPlayer().getInventory().remove(Material.PAPER));
+                wolfGame.getParticipants().forEach(wolfPlayer -> wolfPlayer.getPlayer().getInventory().remove(Material.PAPER));
                 Bukkit.getScheduler().runTaskLater(wareWolf, ()->{
                     wolfGame.kickMostVotedPlayer();
                     //wolfGame.checkWinner();
@@ -41,7 +41,7 @@ public class TimeZoneManager {
                         wolfGame.setTimeZone(TimeZone.NIGHT);
                         wolfGame.sendMessage("夜になりました、追加されたアイテムを右クリックで行動してください");
                         wolfGame.giveRoleItem();
-                        new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
+                        new WolfTask(wolfGame).runTaskTimer(wareWolf,0,20);
                     }
                     },60L);
                 break;
@@ -49,14 +49,21 @@ public class TimeZoneManager {
             case NIGHT:
                 wolfGame.removeRoleItem();
                 //wolfGame.checkWinner();
-                wolfGame.resetDailyStatus();
+                wolfGame.getKillPool().clear();
+                wolfGame.getParticipants().forEach(wolfPlayer -> {
+                    wolfPlayer.setHasVote(false);
+                    wolfPlayer.setHasActioned(false);
+                    wolfPlayer.setVotesCount(0);
+                    wolfPlayer.setProtected(false);
+                    wolfPlayer.getWolfScoreboard().setOwnScore();
+                });
                 wolfGame.setDayCount(wolfGame.getDayCount()+1);
                 wolfGame.sendMessage(wolfGame.getDayCount()+"日目の朝になりました");
                 Bukkit.getScheduler().runTaskLater(wareWolf, ()->{
-                    wolfGame.getWolfManager().killTarget();
+                    wolfGame.killPlayer();
                     if(wolfGame.isRunning()){
                         wolfGame.setTimeZone(TimeZone.DAY);
-                        new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
+                        new WolfTask(wolfGame).runTaskTimer(wareWolf,0,20);
                     }
                 },40L);
                 break;

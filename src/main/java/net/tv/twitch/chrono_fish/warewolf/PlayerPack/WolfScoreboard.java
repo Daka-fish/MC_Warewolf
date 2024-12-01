@@ -43,7 +43,7 @@ public class WolfScoreboard {
             case WOLF:
                 obj.getScore("+仲間").setScore(-5);
                 int i = -6;
-                for(WolfPlayer wolf : wolfPlayer.getWolfGame().getWolfManager().getWolfs()){
+                for(WolfPlayer wolf : wolfPlayer.getWolfGame().getWolfs()){
                     if(!wolf.equals(wolfPlayer)){
                         obj.getScore("  └ §c" + wolf.getPlayer().getName()).setScore(i);
                         i--;
@@ -58,7 +58,7 @@ public class WolfScoreboard {
                 break;
 
             default:
-                alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers();
+                alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers().size();
                 obj.getScore("+生存人数").setScore(-5);
                 obj.getScore(alivePlayers).setScore(-6);
                 break;
@@ -92,7 +92,7 @@ public class WolfScoreboard {
 
             default:
                 board.resetScores(alivePlayers);
-                alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers();
+                alivePlayers = "  └ §e" + wolfPlayer.getWolfGame().getAlivePlayers().size();
                 obj.getScore(alivePlayers).setScore(-6);
                 break;
         }

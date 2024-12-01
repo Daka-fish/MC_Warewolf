@@ -15,8 +15,8 @@ public enum TimeZone {
         this.color = color;
     }
 
-    public String getName() { return name; }
+    public String getName() {return name;}
     public void setTime(int time) {this.time = time;}
-    public int getTime() { return time; }
-    public String getColor() { return color; }
+    public int getTime() {return time;}
+    public String getColor() {return color;}
 }

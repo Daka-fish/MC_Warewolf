@@ -34,13 +34,13 @@ public class Commands implements CommandExecutor {
                             wolfGame.setTimeZone(TimeZone.NIGHT);
                             wolfGame.setDayCount(0);
                             wolfGame.getRoleManager().assignRole();
-                            wolfGame.getWolfPlayers().forEach(wolfPlayer -> {
+                            wolfGame.getParticipants().forEach(wolfPlayer -> {
                                 wolfPlayer.getPlayer().sendMessage("あなたの役職は【"+wolfPlayer.getRole().getRoleName()+"§f】です");
                                 wolfPlayer.getWolfScoreboard().resetRoleScore();
                                 wolfPlayer.getWolfScoreboard().removeOwnScore();
                                 wolfPlayer.getWolfScoreboard().setOwnScore();
                             });
-                            new WolfTask(wareWolf, wolfGame).runTaskTimer(wareWolf,0,20);
+                            new WolfTask(wolfGame).runTaskTimer(wareWolf,0,20);
                         } else {
                             snd.sendMessage("§c別のゲームが進行中です");
                         }

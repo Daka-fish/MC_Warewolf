@@ -1,7 +1,6 @@
 package net.tv.twitch.chrono_fish.warewolf.GamePack;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
-import net.kyori.adventure.text.Component;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
@@ -34,13 +33,13 @@ public class WolfEvent implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player joinedPlayer = e.getPlayer();
-        wolfGame.getWolfPlayers().add(new WolfPlayer(wolfGame, joinedPlayer));
+        wolfGame.getParticipants().add(new WolfPlayer(wolfGame, joinedPlayer));
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         Player quitter = e.getPlayer();
-        wolfGame.getWolfPlayers().remove(wolfGame.getWolfPlayer(quitter));
+        wolfGame.getParticipants().remove(wolfGame.getWolfPlayer(quitter));
     }
 
     @EventHandler
@@ -50,8 +49,7 @@ public class WolfEvent implements Listener {
                 e.setCancelled(true);
                 WolfPlayer wolfPlayer = wolfGame.getWolfPlayer(e.getPlayer());
                 if(wolfPlayer.getRole().equals(Role.WOLF)){
-                    wolfGame.getWolfManager().sendWolfMessage("§c[人狼チャット]");
-                    wolfGame.getWolfManager().sendWolfMessage(Component.text(wolfPlayer.getPlayer().getName()+" -> ").append(e.message()));
+                    //人狼チャット
                 }else{
                     e.getPlayer().sendMessage("§c夜の間は会話できません");
                 }

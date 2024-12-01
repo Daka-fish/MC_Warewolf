@@ -1,15 +1,17 @@
 package net.tv.twitch.chrono_fish.warewolf.PlayerPack;
 
 import net.tv.twitch.chrono_fish.warewolf.GamePack.WolfGame;
+import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import org.bukkit.entity.Player;
 
 public class WolfPlayer {
 
     private final WolfGame wolfGame;
+    private final WolfItem wolfItem;
     private final Player player;
     private Role role;
     private int votesCount;
-    private WolfPlayer target;
+    private WolfPlayer target; //役職ごとの行動の対象、スコアボードの表示などに活用
     private boolean isAlive;
     private boolean hasVote;
     private boolean hasActioned;
@@ -19,6 +21,7 @@ public class WolfPlayer {
 
     public WolfPlayer(WolfGame wolfGame, Player player){
         this.wolfGame = wolfGame;
+        this.wolfItem = wolfGame.getWolfItem();
         this.player = player;
         this.role = Role.INNOCENT;
         this.votesCount = 0;
@@ -54,7 +57,7 @@ public class WolfPlayer {
                     setHasVote(true);
                     voteTarget.setVotesCount(voteTarget.getVotesCount()+1);
                     player.sendMessage("§a"+voteTarget.getPlayer().getName()+"§f に投票しました");
-                    player.getInventory().remove(wolfGame.getWolfItem().getVotePaper());
+                    player.getInventory().remove(wolfItem.getVotePaper());
                 }else{
                     player.sendMessage("§c死亡しているプレイヤーには投票できません");
                 }
@@ -73,9 +76,10 @@ public class WolfPlayer {
                     if(!wp.getRole().equals(Role.WOLF)){
                         if(!hasActioned()){
                             setHasActioned(true);
-                            wolfGame.getWolfManager().addTarget(wp);
-                            player.sendMessage("§a"+wp.getPlayer().getName()+"§f を選択しました");
-                            player.getInventory().remove(wolfGame.getWolfItem().getKillItem());
+                            target = wp;
+                            wolfGame.getKillPool().add(target);
+                            player.sendMessage("§a"+target.getPlayer().getName()+"§f を選択しました");
+                            player.getInventory().remove(wolfItem.getKillItem());
                         }else{
                             player.sendMessage("§c既に選択しています");
                         }
@@ -98,9 +102,9 @@ public class WolfPlayer {
                     if(!wp.equals(target)){
                         target = wp;
                         setHasActioned(true);
-                        wp.setProtected(true);
+                        target.setProtected(true);
                         player.sendMessage("今夜は§a"+wp.getPlayer().getName()+"§fを守ります");
-                        player.getInventory().remove(wolfGame.getWolfItem().getProtectItem());
+                        player.getInventory().remove(wolfItem.getProtectItem());
                     }else{
                         player.sendMessage("§c昨晩と同じプレイヤーは選択できません");
                     }
@@ -118,8 +122,9 @@ public class WolfPlayer {
             if(!wp.getPlayer().equals(player) && wp.isAlive()){
                 if(!hasActioned()){
                     setHasActioned(true);
-                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
-                    player.getInventory().remove(wolfGame.getWolfItem().getSeerItem());
+                    target = wp;
+                    player.sendMessage(target.getPlayer().getName()+" は"+target.getRole().getColor()+"§fでした");
+                    player.getInventory().remove(wolfItem.getSeerItem());
                 }else{
                     player.sendMessage("§c既に占いました");
                 }
@@ -134,8 +139,9 @@ public class WolfPlayer {
             if(!wp.getPlayer().equals(player) && !wp.isAlive()){
                 if(!hasActioned()){
                     setHasActioned(true);
-                    player.sendMessage(wp.getPlayer().getName()+"は【"+wp.getRole().getColor()+"§f】でした");
-                    player.getInventory().remove(wolfGame.getWolfItem().getMediumItem());
+                    target = wp;
+                    player.sendMessage(target.getPlayer().getName()+" は"+target.getRole().getColor()+"§ffでした");
+                    player.getInventory().remove(wolfItem.getMediumItem());
                 }else{
                     player.sendMessage("§既に死体を漁りました");
                 }
