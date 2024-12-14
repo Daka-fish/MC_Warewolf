@@ -99,7 +99,7 @@ public class Commands implements CommandExecutor {
 
                     case "set":
                         if(snd.isOp()){
-                            //ww set name role
+                            //ww set player-name role
                             if(args.length < 3){
                                 snd.sendMessage("§c/ww set {player name} {role}");
                                 return false;

@@ -1,5 +1,6 @@
 package net.tv.twitch.chrono_fish.warewolf.GamePack;
 
+import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfInv;
 import net.tv.twitch.chrono_fish.warewolf.InvPack.WolfItem;
 import net.tv.twitch.chrono_fish.warewolf.Manager.*;
 import net.tv.twitch.chrono_fish.warewolf.PlayerPack.Role;
@@ -24,6 +25,7 @@ public class WolfGame {
     private final RoleManager roleManager;
 
     private final WolfItem wolfItem;
+    private final WolfInv wolfInv;
 
     private final ArrayList<WolfPlayer> killPool;
 
@@ -36,6 +38,7 @@ public class WolfGame {
         this.timeZoneManager = new TimeZoneManager(wareWolf, this);
         this.roleManager = new RoleManager(this);
         this.wolfItem = new WolfItem(this);
+        this.wolfInv = new WolfInv(this);
         this.killPool = new ArrayList<>();
         for(TimeZone tz : TimeZone.values()){
             tz.setTime(configManager.getConfigTime(tz));
@@ -55,6 +58,7 @@ public class WolfGame {
     public RoleManager getRoleManager() {return roleManager;}
 
     public WolfItem getWolfItem() {return wolfItem;} //不必要
+    public WolfInv getWolfInv(){return wolfInv;}
 
     public ArrayList<WolfPlayer> getKillPool() {return killPool;}
 
